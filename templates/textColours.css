@@ -1,0 +1,19 @@
+.text-primary {
+  color: #0e3c5f !important;
+}
+
+.border-secondary {
+  border-color: #bec8da !important;
+}
+
+.border-primary {
+  border-color: #43586d !important;
+}
+
+.timetable-past {
+  color: #707070 !important;
+}
+
+.timetable-past-secondary {
+  color: #acacac !important;
+}
