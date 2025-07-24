@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - nSIMON</title>
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #005f9d 0%, #2980b9 100%);
+        min-height: 100vh;
+      }
+      .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      }
+      .logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+      }
+      .btn-primary {
+        background-color: #005f9d;
+        border-color: #005f9d;
+      }
+      .btn-primary:hover {
+        background-color: #004a7a;
+        border-color: #004a7a;
+      }
+      .form-control:focus {
+        border-color: #005f9d;
+        box-shadow: 0 0 0 0.2rem rgba(0, 95, 157, 0.25);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="container-fluid d-flex align-items-center justify-content-center min-vh-100"
+    >
+      <div class="row w-100 justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="login-card p-5">
+            <div class="text-center mb-4">
+              <img
+                src="{{ url_for('static', filename='SFX.png') }}"
+                alt="Logo"
+                class="logo mb-3"
+              />
+              <h2 class="fw-bold text-primary">nSIMON</h2>
+              <p class="text-muted">Please sign in to your account</p>
+            </div>
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %} {%
+            if messages %} {% for category, message in messages %}
+            <div
+              class="alert alert-{{ 'danger' if category == 'error' else 'success' if category == 'success' else 'info' }} alert-dismissible fade show"
+              role="alert"
+            >
+              {{ message }}
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+              ></button>
+            </div>
+            {% endfor %} {% endif %} {% endwith %}
+
+            <form method="POST">
+              <div class="mb-3">
+                <label for="username" class="form-label">
+                  <i class="bi bi-person-fill me-2"></i>Username
+                </label>
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  id="username"
+                  name="username"
+                  required
+                />
+              </div>
+
+              <div class="mb-4">
+                <label for="password" class="form-label">
+                  <i class="bi bi-lock-fill me-2"></i>Password
+                </label>
+                <input
+                  type="password"
+                  class="form-control form-control-lg"
+                  id="password"
+                  name="password"
+                  required
+                />
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNkCfHzAVBReH9diLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
