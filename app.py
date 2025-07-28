@@ -1,55 +1,68 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
-from Auth import getCookie
-import Simon
-from datetime import datetime, timezone
-import json, pytz
+# --[[ app.py ]]--
+# --[[ Imports ]]--
+from flask import (
+    Flask,
+    request, 
+    jsonify, 
+    redirect, 
+    render_template, 
+    url_for, 
+    make_response, 
+    flash
+)
+from dotenv import load_dotenv
+import os
 
+# --[[ Load Environment Variables ]]--
+load_dotenv()
+
+# --[[ Flask Initialisation ]]--
 app = Flask(__name__)
-app.secret_key = 'TEMPKEY'
+app.secret_key = os.getenv('FLASK_SECRET', 'FlaskSecret')
+
+# --[[ Register Blueprints ]]--
+from routes.public.index import indexBlueprint
+app.register_blueprint(indexBlueprint)
+
+from routes.backend.login import loginBlueprint
+app.register_blueprint(loginBlueprint)
+
+from routes.backend.logout import logoutBlueprint
+app.register_blueprint(logoutBlueprint)
+
+from routes.public.dashboard import dashboardBlueprint
+app.register_blueprint(dashboardBlueprint)
+
+from routes.backend.dashboard.getTimetable import getTimetableBlueprint
+app.register_blueprint(getTimetableBlueprint)
+
+from routes.backend.dashboard.getDailyMessages import getDailyMessagesBlueprint
+app.register_blueprint(getDailyMessagesBlueprint)
+
+from routes.backend.dashboard.getClasses import getClassesBlueprint
+app.register_blueprint(getClassesBlueprint)
+
+from routes.backend.dashboard.getWeather import getWeatherBlueprint
+app.register_blueprint(getWeatherBlueprint)
 
 
-@app.route('/')
-def index():
-    if 'loggedIn' in session and session['loggedIn']:
 
-        userCookie = session.get('simonCookie')
-        now = datetime.now(timezone.utc)
-        formattedDateTime = now.strftime("%Y-%m-%dT%H:%M:%S.") + f"{int(now.microsecond / 1000):03d}Z"
+# --[[ Get Version API ]]--
+@app.route('/api/version', methods=['GET'])
+def getVersion():
+    """
+    Returns the version of the application.
+    """
+    version = os.getenv('APP_VERSION', '1.0.0')
+    return jsonify({'version': version})
 
+# --[[ Start ]]--
+# --[[ PRODUCTION ]]--
+# if __name__ == '__main__':
+#     from waitress import serve
+#     serve(app, host='0.0.0.0', port=8080)
 
-        # Perform API Requests
-        response, timetable = Simon.getTimetable(userCookie, formattedDateTime)
-        timetable = json.loads(timetable)
-
-        return render_template('base.html', timetable=timetable['d']['Periods'])
-    else:
-        return redirect(url_for('login'))
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        
-        try:
-            cookie = getCookie(username, password)
-            if cookie:
-                session['loggedIn'] = True
-                session['simonCookie'] = cookie
-                flash('Login successful!', 'success')
-                return redirect(url_for('index'))
-            else:
-                flash('Invalid username or password', 'error')
-        except Exception as e:
-            flash('Login failed. Please try again.', 'error')
-    
-    return render_template('login.html')
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    flash('You have been logged out successfully.', 'info')
-    return redirect(url_for('login'))
-
+# --[[ DEVELOPMENT ]]--
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
+

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock %}nSIMON</title>
+    {% block head %} {% endblock %}
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='textColours.css') }}"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+
+    <style>
+      body {
+        background-color: #e0e0e0;
+      }
+
+      .bg-secondary-light {
+        background-color: #f8f8f8 !important;
+      }
+
+      .navbar {
+        background-color: #005f9d;
+      }
+
+      .small-navbar {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+      }
+
+      .small-navbar .nav-link {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        font-size: 0.9rem;
+      }
+
+      .small-navbar .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+      }
+
+      .offcanvas {
+        background: linear-gradient(180deg, #02609e 0%, #2980b9 100%);
+      }
+
+      .profile-img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .nav-link-hover:hover {
+        padding-left: 0.5rem !important;
+        transition: padding-left 0.2s ease;
+      }
+
+      .external-link-icon {
+        font-size: 0.8rem;
+      }
+
+      @media (max-width: 991.98px) {
+        .col-12[style*="min-height"] {
+          min-height: auto !important;
+        }
+
+        #timetableContent[style*="min-height"] {
+          min-height: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: flex; flex-direction: column; height: 100vh">
+      <!-- Navbar -->
+      <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+          <img
+            src="{{ url_for('static', filename='SFX.png') }}"
+            style="width: 50px"
+            alt="Logo"
+          />
+
+          <div class="d-flex justify-content-end">
+            <ul class="navbar-nav d-flex flex-row">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard"
+                  ><i class="bi bi-house-fill h3"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  data-bs-toggle="offcanvas"
+                  href="#sidebar"
+                  role="button"
+                  aria-controls="sidebar"
+                  ><i class="bi bi-list h3 ms-2"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Second row under navbar -->
+      <nav class="navbar navbar-light bg-light shadow-lg small-navbar">
+        <div class="container-fluid">
+          <div class="d-flex">
+            <ul class="navbar-nav d-flex flex-row me-auto">
+              <li class="nav-item me-3">
+                <a
+                  class="nav-link"
+                  href="https://simon.sfx.vic.edu.au/WebModules/LearningAreas/LearningAreasWorkDesk.aspx"
+                  >Learning Areas</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://simon.sfx.vic.edu.au/profiles/students/5927/aspx/GeneralInformation/StudentDashboard.aspx/"
+                  >Student Profile</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Sidebar -->
+      <div
+        class="offcanvas offcanvas-end text-white"
+        tabindex="-1"
+        id="sidebar"
+        style="width: 320px"
+      >
+        <!-- Header with close button -->
+        <div class="offcanvas-header border-0 pb-1">
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas"
+          ></button>
+        </div>
+
+        <div class="offcanvas-body p-0 d-flex flex-column h-100">
+          <!-- Profile Section -->
+          <!-- <div class="d-flex align-items-center px-4 mb-4">
+            <img
+              src="../assets/DisplayUserPhoto.png"
+              alt="Sebastian Cunningham"
+              class="profile-img rounded-circle border border-3 border-white border-opacity-25 me-3"
+              style="object-fit: cover; height: 75px; width: 75px"
+            />
+            <div>
+              <h5 class="fw-semibold mb-1">Sebastian Cunningham</h5>
+              <div class="d-flex gap-3">
+                <a
+                  href="#"
+                  class="text-white text-opacity-75 text-decoration-none small"
+                  >Profile</a
+                >
+                <a
+                  href="#"
+                  class="text-white text-opacity-75 text-decoration-none small"
+                  >Settings</a
+                >
+              </div>
+            </div>
+          </div> -->
+
+          <!-- Navigation Section -->
+          <div class="px-1 flex-grow-1">
+            <div class="list-group list-group-flush">
+              <a
+                href="https://simon.sfx.vic.edu.au/WebModules/LearningAreas/LearningAreasWorkDesk.aspx"
+                class="list-group-item list-group-item-action bg-transparent text-white border-0 border-bottom border-white border-opacity-10 py-3 nav-link-hover"
+              >
+                Learning Areas
+              </a>
+              <a
+                href="https://simon.sfx.vic.edu.au/WebModules/SchoolCalendars/SchoolCalendarsWorkDesk.aspx"
+                class="list-group-item list-group-item-action bg-transparent text-white border-0 border-bottom border-white border-opacity-10 py-3 nav-link-hover"
+              >
+                Calendar
+              </a>
+              <a
+                href="http://bea-v-print-01.curric.stfx:9191/app"
+                class="list-group-item list-group-item-action bg-transparent text-white border-0 border-bottom border-white border-opacity-10 py-3 nav-link-hover"
+              >
+                WebPrint
+              </a>
+            </div>
+          </div>
+
+          <!-- Logout Section -->
+          <div class="p-4 border-top border-white border-opacity-10 mt-auto">
+            <a
+              href="/logout"
+              type="button"
+              class="btn btn-outline-light bg-white bg-opacity-10 border-white border-opacity-25 w-100 d-flex align-items-center justify-content-center gap-2 py-3"
+            >
+              <i class="bi bi-box-arrow-right"></i>
+              Log out
+            </a>
+            <div class="text-center mt-3 small text-white text-opacity-50">
+              <div>nSIMON</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% block content %}{% endblock %}
+
+      <!-- SCRIPTS -->
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"
+      ></script>
+    </div>
+  </body>
+</html>
