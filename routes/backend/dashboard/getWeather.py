@@ -22,12 +22,19 @@ getWeatherBlueprint = Blueprint('getWeatherBlueprint', __name__)
 @getWeatherBlueprint.route("/api/getWeather", methods=["POST"])
 def getWeather():
 
-    requestURL = f"https://api.open-meteo.com/v1/forecast?latitude=-38.051690&longitude=145.373290&current=temperature_2m,weather_code"
+    requestURL = f"https://api.open-meteo.com/v1/forecast?latitude=-38.05169&longitude=145.37329&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&current=temperature_2m,apparent_temperature,weather_code&timezone=Australia%2FSydney&forecast_days=1"
     response = requests.get(requestURL)
     data = response.json()
+    print(data)
 
     if response.status_code == 200:
         currentTemperature = data["current"]["temperature_2m"]
+        todayMin = data["daily"]["temperature_2m_min"][0]
+        todayMax = data["daily"]["temperature_2m_max"][0]
+        todayUV = data["daily"]["uv_index_max"][0]
+        todaySunrise = data["daily"]["sunrise"][0]
+        todaySunset = data["daily"]["sunset"][0]
+        currentFeelsLike = data["current"]["apparent_temperature"]
         weatherCode = data["current"]["weather_code"]
 
         def wmo_interpretation(condition, icon):
@@ -89,6 +96,12 @@ def getWeather():
                     "currentTemperature": currentTemperature,
                     "currentDescription": currentDescription,
                     "currentIcon": currentIcon,
+                    "currentFeelsLike": currentFeelsLike,
+                    "todayMin": todayMin,
+                    "todayMax": todayMax,
+                    "todayUV": todayUV,
+                    "todaySunrise": todaySunrise,
+                    "todaySunset": todaySunset,
                 }
             ),
             200,

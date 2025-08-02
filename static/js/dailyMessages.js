@@ -41,7 +41,7 @@ function fetchDailyMessages(date) {
       for (const message of dailyMessagesData) {
         const card = document.createElement("div");
         card.className =
-          "card border-2 border-0 mx-0 rounded bg-secondary-light shadow-sm mb-2";
+          "card border-2 border-0 mx-0 rounded content-card-secondary shadow-sm mb-2";
 
         const cardBody = document.createElement("div");
         cardBody.className = "card-body py-2 rounded";

@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const cardBody = document.createElement("div");
     cardBody.className =
-      "card-body py-2 rounded bg-secondary-light shadow-sm m-0 mb-1 d-flex justify-content-between align-items-center";
+      "card-body py-2 rounded content-card shadow-sm m-0 mb-1 d-flex justify-content-between align-items-center";
 
     const leftDiv = document.createElement("div");
     const title = document.createElement("h6");
@@ -51,5 +51,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     quickLinksContainer.appendChild(linkElement);
   });
-  fetchClassResources();
 });

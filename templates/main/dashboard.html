@@ -212,51 +212,75 @@
 
       <!-- Content -->
       <div class="card border-0 shadow m-1 mt-2" style="flex-grow: 1">
-        <div class="dashboard-header rounded-top">
+        <div
+          class="dashboard-header rounded-top d-flex justify-content-between align-items-center"
+        >
           <h6>Student Dashboard</h6>
+          <i
+            class="bi bi-clouds-fill"
+            style="cursor: pointer; font-size: 1.2rem"
+            data-bs-toggle="modal"
+            data-bs-target="#weatherModal"
+          ></i>
         </div>
         <div class="container-fluid w-full">
           <div class="row ps-1 pe-1 mt-1">
             <div class="col col-3 pt-1 px-1">
-              <div class="card border-0 shadow-sm">
+              <div class="card border-1 shadow-sm">
                 <div
-                  class="card-header bg-primary text-white border-0 rounded-top d-flex justify-content-between align-items-center"
-                  style="background: #367cb2 !important"
+                  class="section-header"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#classResourcesCollapsable"
+                  aria-expanded="true"
+                  aria-controls="classResourcesCollapsable"
                 >
-                  <h6 class="mb-0 fw-semibold">CLASS RESOURCES</h6>
-                  <button
-                    class="btn btn-sm p-0 text-white border-0 bg-transparent collapse-toggle"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#classResourcesCollapsable"
-                    aria-expanded="true"
-                    aria-controls="classResourcesCollapsable"
-                    style="font-size: 1.2rem"
+                  <div
+                    class="d-flex justify-content-between align-items-center"
                   >
-                    <i class="bi bi-chevron-up"></i>
-                  </button>
+                    <div class="d-flex align-items-center">
+                      <h6 class="section-title">CLASS RESOURCES</h6>
+                    </div>
+                    <button
+                      class="btn btn-sm p-0 text-muted border-0 bg-transparent collapse-toggle"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#classResourcesCollapsable"
+                      aria-expanded="true"
+                      aria-controls="classResourcesCollapsable"
+                      style="font-size: 1.2rem"
+                    >
+                      <i class="bi bi-chevron-up"></i>
+                    </button>
+                  </div>
                 </div>
 
                 <div class="collapse show" id="classResourcesCollapsable">
                   <div
                     class="card-body bg-light p-2"
-                    style="height: 20.5vh; background-color: #eeeeee !important"
+                    style="height: 20.5vh; background-color: #ffffff !important"
                   >
                     <div
-                      class="card-body py-2 rounded bg-secondary-light shadow-sm m-0 mb-1"
+                      class="card-body py-2 rounded shadow-sm m-0 mb-1 content-card"
+                      data-bs-toggle="modal"
+                      data-bs-target="#dueModal"
+                      style="cursor: pointer"
                     >
                       <h6 class="card-title h6 m-0 fw-medium text-dark">
                         <span id="test123123">0</span> Due
                       </h6>
                     </div>
+
                     <div
-                      class="card-body py-2 rounded bg-secondary-light shadow-sm m-0 mb-1"
+                      class="card-body py-2 rounded shadow-sm m-0 mb-1 content-card"
+                      data-bs-toggle="modal"
+                      data-bs-target="#resultModal"
+                      style="cursor: pointer"
                     >
                       <h6 class="card-title h6 m-0 fw-medium text-dark">
                         <span id="test123123123">0</span> Results
                       </h6>
                     </div>
                     <div
-                      class="card-body py-2 rounded bg-secondary-light shadow-sm m-0 mb-1"
+                      class="card-body py-2 rounded shadow-sm m-0 mb-1 content-card"
                     >
                       <h6 class="card-title h6 m-0 fw-medium text-dark">
                         <span id="test123123123123123">0</span> Overdue
@@ -265,28 +289,37 @@
                   </div>
                 </div>
               </div>
-              <div class="card border-0 shadow-sm mt-2">
+              <div class="card border-1 shadow-sm mt-2">
                 <div
-                  class="card-header bg-primary text-white border-0 rounded-top d-flex justify-content-between align-items-center"
-                  style="background: #367cb2 !important"
+                  class="section-header"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#quickLinksCollapsable"
+                  aria-expanded="true"
+                  aria-controls="quickLinksCollapsable"
                 >
-                  <h6 class="mb-0 fw-semibold">QUICK LINKS</h6>
-                  <button
-                    class="btn btn-sm p-0 text-white border-0 bg-transparent collapse-toggle"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#quickLinksCollapsable"
-                    aria-expanded="true"
-                    aria-controls="quickLinksCollapsable"
-                    style="font-size: 1.2rem"
+                  <div
+                    class="d-flex justify-content-between align-items-center"
                   >
-                    <i class="bi bi-chevron-up"></i>
-                  </button>
+                    <div class="d-flex align-items-center">
+                      <h6 class="section-title">WEATHER</h6>
+                    </div>
+                    <button
+                      class="btn btn-sm p-0 text-muted border-0 bg-transparent collapse-toggle"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#quickLinksCollapsable"
+                      aria-expanded="true"
+                      aria-controls="quickLinksCollapsable"
+                      style="font-size: 1.2rem"
+                    >
+                      <i class="bi bi-chevron-up"></i>
+                    </button>
+                  </div>
                 </div>
 
                 <div class="collapse show" id="quickLinksCollapsable">
                   <div
                     class="card-body bg-light p-2"
-                    style="height: 37.5vh; background-color: #eeeeee !important"
+                    style="height: 41.7vh; background-color: #ffffff !important"
                   >
                     <div id="quickLinksContainer"></div>
                   </div>
@@ -295,28 +328,37 @@
             </div>
 
             <div class="col col-6 pt-1 px-1">
-              <div class="card border-0 shadow-sm">
+              <div class="card border-1 shadow-sm">
                 <div
-                  class="card-header bg-primary text-white border-0 rounded-top d-flex justify-content-between align-items-center"
-                  style="background: #367cb2 !important"
+                  class="section-header"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#dailyMessagesCollapsable"
+                  aria-expanded="true"
+                  aria-controls="dailyMessagesCollapsable"
                 >
-                  <h6 class="mb-0 fw-semibold">DAILY MESSAGES</h6>
-                  <button
-                    class="btn btn-sm p-0 text-white border-0 bg-transparent collapse-toggle"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#dailyMessagesCollapsable"
-                    aria-expanded="true"
-                    aria-controls="dailyMessagesCollapsable"
-                    style="font-size: 1.2rem"
+                  <div
+                    class="d-flex justify-content-between align-items-center"
                   >
-                    <i class="bi bi-chevron-up"></i>
-                  </button>
+                    <div class="d-flex align-items-center">
+                      <h6 class="section-title">DAILY MESSAGES</h6>
+                    </div>
+                    <button
+                      class="btn btn-sm p-0 text-muted border-0 bg-transparent collapse-toggle"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dailyMessagesCollapsable"
+                      aria-expanded="true"
+                      aria-controls="dailyMessagesCollapsable"
+                      style="font-size: 1.2rem"
+                    >
+                      <i class="bi bi-chevron-up"></i>
+                    </button>
+                  </div>
                 </div>
 
                 <div class="collapse show" id="dailyMessagesCollapsable">
                   <div
                     class="card-body bg-light p-2"
-                    style="height: 65vh; background-color: #eeeeee !important"
+                    style="height: 70vh; background-color: #ffffff !important"
                   >
                     <div
                       id="dailyMessageHolder"
@@ -328,28 +370,37 @@
             </div>
 
             <div class="col col-3 pt-1 px-1">
-              <div class="card border-0 shadow-sm">
+              <div class="card border-1 shadow-sm">
                 <div
-                  class="card-header bg-primary text-white border-0 rounded-top d-flex justify-content-between align-items-center"
-                  style="background: #367cb2 !important"
+                  class="section-header"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#timetableCollapsable"
+                  aria-expanded="true"
+                  aria-controls="timetableCollapsable"
                 >
-                  <h6 class="mb-0 fw-semibold">TIMETABLE</h6>
-                  <button
-                    class="btn btn-sm p-0 text-white border-0 bg-transparent collapse-toggle"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#timetableCollapsable"
-                    aria-expanded="true"
-                    aria-controls="timetableCollapsable"
-                    style="font-size: 1.2rem"
+                  <div
+                    class="d-flex justify-content-between align-items-center"
                   >
-                    <i class="bi bi-chevron-up"></i>
-                  </button>
+                    <div class="d-flex align-items-center">
+                      <h6 class="section-title">TIMETABLE</h6>
+                    </div>
+                    <button
+                      class="btn btn-sm p-0 text-muted border-0 bg-transparent collapse-toggle"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#timetableCollapsable"
+                      aria-expanded="true"
+                      aria-controls="timetableCollapsable"
+                      style="font-size: 1.2rem"
+                    >
+                      <i class="bi bi-chevron-up"></i>
+                    </button>
+                  </div>
                 </div>
 
                 <div class="collapse show" id="timetableCollapsable">
                   <div
                     class="card-body bg-light pt-1 px-2"
-                    style="height: 65vh; background-color: #eeeeee !important"
+                    style="height: 70vh; background-color: #ffffff !important"
                   >
                     <input
                       id="timetableDate"
@@ -474,6 +525,155 @@
           </div>
         </div>
       </div>
+      <div id="modalContainer">
+        <div
+          class="modal fade"
+          id="dueModal"
+          tabindex="-1"
+          aria-labelledby="dueModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header dashboard-header">
+                <h1 class="modal-title fs-5" id="dueModalLabel">Due Tasks</h1>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body" id="dueTasksModalHolder"></div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="modal fade"
+          id="resultModal"
+          tabindex="-1"
+          aria-labelledby="resultModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header dashboard-header">
+                <h1 class="modal-title fs-5" id="resultModalLabel">
+                  Result Tasks
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body" id="resultTasksModalHolder"></div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="modal fade"
+          id="weatherModal"
+          tabindex="-1"
+          aria-labelledby="weatherModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header dashboard-header">
+                <h1 class="modal-title fs-5" id="weatherModalLabel">
+                  Weather in Beaconsfield
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="text-center mb-4">
+                  <div class="weather-icon mb-1">
+                    <img
+                      src="https://cdn.weatherapi.com/weather/64x64/day/113.png"
+                      alt="Sunny weather"
+                      class="weather-icon-img"
+                      id="currentWeatherIcon"
+                    />
+                  </div>
+                  <div
+                    class="temperature text-primary mb-1"
+                    id="currentWeatherTemp"
+                  >
+                    22°C
+                  </div>
+                  <div
+                    class="condition-text mb-2"
+                    id="currentWeatherConditions"
+                  >
+                    Sunny
+                  </div>
+                  <div class="text-muted">
+                    <small id="currentFeelsLike">Feels like 24°C</small>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="col-6">
+                    <div class="weather-detail text-center">
+                      <div class="detail-label">Min Temp</div>
+                      <div class="detail-value text-info">
+                        <i class="bi bi-thermometer-low"></i>
+                        <span id="todayMinTemp">18°C</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="weather-detail text-center">
+                      <div class="detail-label">Max Temp</div>
+                      <div class="detail-value text-danger">
+                        <i class="bi bi-thermometer-high"></i>
+                        <span id="todayMaxTemp">26°C</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4 mb-3">
+                    <div class="weather-detail text-center">
+                      <div class="detail-label">UV Index</div>
+                      <div class="detail-value text-warning">
+                        <i class="bi bi-brightness-high"></i>
+                        <span id="todayUVIndex">6</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <div class="weather-detail text-center">
+                      <div class="detail-label">Sunrise</div>
+                      <div class="detail-value text-success">
+                        <i class="bi bi-sunrise"></i>
+
+                        <span id="todaySunrise">6:42 AM</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <div class="weather-detail text-center">
+                      <div class="detail-label">Sunset</div>
+                      <div class="detail-value text-primary">
+                        <i class="bi bi-sunset"></i>
+
+                        <span id="todaySunset">6:42 PM</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- SCRIPTS -->
       <script
@@ -486,6 +686,7 @@
       <script src="{{ url_for('static', filename='js/dailyMessages.js') }}"></script>
       <script src="{{ url_for('static', filename='js/classResources.js') }}"></script>
       <script src="{{ url_for('static', filename='js/quickLinks.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/weather.js') }}"></script>
     </div>
   </body>
 </html>
