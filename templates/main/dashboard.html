@@ -1,726 +1,491 @@
-{% extends "partials/base.html" %} {% block title %}Dashboard | {% endblock %}
-{% block head %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='dashboard.css') }}"
-/>
-{% endblock %} {% block content %}
-<div class="card border-0 shadow m-2" style="flex-grow: 1">
-  <!-- Header -->
-  <div class="dashboard-header">
-    <h5>Student Dashboard</h5>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>nSIMON</title>
 
-  <!-- Body -->
-  <div class="card-body">
-    <div class="row align-items-start">
-      <!-- WEATHER, CLASS RESOURCES, QUICK LINKS -->
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/textColours.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/navbar.css') }}"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+
+    <style>
+      body {
+        background-color: #e0e0e0;
+      }
+
+      .bg-secondary-light {
+        background-color: #f8f8f8 !important;
+      }
+
+      .text-xs {
+        font-size: 0.75rem !important;
+      }
+
+      #dailyMessageHolder {
+        scrollbar-width: thin;
+        scrollbar-color: #c0c0c0 transparent;
+      }
+
+      #dailyMessageHolder::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      #dailyMessageHolder::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      #dailyMessageHolder::-webkit-scrollbar-thumb {
+        background-color: #c0c0c0;
+        border-radius: 3px;
+      }
+
+      #dailyMessageHolder::-webkit-scrollbar-thumb:hover {
+        background-color: #a0a0a0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div style="display: flex; flex-direction: column; height: 100vh">
+      <!-- Navbar -->
+      <nav class="navbar navbar-dark py-0 ps-0 pe-2">
+        <div class="container-fluid py-0 ps-0 pe-2">
+          <img
+            src="../static/Banner.gif"
+            class="p-0 m-0"
+            style="width: 230px"
+            alt="Logo"
+          />
+
+          <div class="d-flex justify-content-end">
+            <ul class="navbar-nav d-flex flex-row">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard"
+                  ><i class="bi bi-house-fill h3"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  data-bs-toggle="offcanvas"
+                  href="#sidebar"
+                  role="button"
+                  aria-controls="sidebar"
+                  ><i class="bi bi-list h3 ms-2"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Second row under navbar -->
+      <nav class="navbar navbar-light bg-light shadow-lg small-navbar">
+        <div class="container-fluid">
+          <div class="d-flex">
+            <ul class="navbar-nav d-flex flex-row me-auto">
+              <li class="nav-item me-3">
+                <a
+                  class="nav-link"
+                  href="https://simon.sfx.vic.edu.au/WebModules/LearningAreas/LearningAreasWorkDesk.aspx"
+                  >Learning Areas</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://simon.sfx.vic.edu.au/profiles/students/5927/aspx/GeneralInformation/StudentDashboard.aspx/"
+                  >Student Profile</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Sidebar -->
       <div
-        class="col-12 col-lg-3 mb-4 mb-lg-0 order-3 order-lg-1 dashboard-sidebar"
+        class="offcanvas offcanvas-end text-white"
+        tabindex="-1"
+        id="sidebar"
+        style="width: 320px"
       >
-        <!-- WEATHER -->
-        <div class="card mb-2">
-          <!-- HEADER -->
-          <div
-            class="section-header"
-            data-bs-toggle="collapse"
-            data-bs-target="#weatherContent"
-            aria-expanded="true"
-            aria-controls="weatherContent"
-          >
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
-                <h6 class="section-title">WEATHER</h6>
-              </div>
-              <div class="d-flex align-items-center text-muted pe-2">
-                <i class="bi bi-chevron-up" id="weatherIcon"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- BODY -->
-          <div class="collapse show" id="weatherContent">
-            <div class="d-flex align-items-center px-4 mb-3">
-              <img
-                id="weatherIconImage"
-                src="https://cdn-icons-png.flaticon.com/512/10480/10480648.png"
-                alt="Sebastian Cunningham"
-                class="profile-img rounded-circle border border-3 border-white border-opacity-25 me-3"
-              />
-              <div>
-                <h4 class="fw-semibold mb-1">
-                  <span id="weatherTemperature"></span>
-                </h4>
-                <h6 class="fw-medium mb-2">
-                  <span id="weatherConditions"></span>
-                </h6>
-              </div>
-            </div>
-          </div>
+        <!-- Header with close button -->
+        <div class="offcanvas-header border-0 pb-1">
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas"
+          ></button>
         </div>
-        <!-- CLASS RESOURCES -->
-        <div class="card mb-2">
-          <!-- HEADER -->
-          <div
-            class="section-header"
-            data-bs-toggle="collapse"
-            data-bs-target="#classResourcesContent"
-            aria-expanded="true"
-            aria-controls="classResourcesContent"
-          >
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
-                <h6 class="section-title">CLASS RESOURCES</h6>
+
+        <div class="offcanvas-body p-0 d-flex flex-column h-100">
+          <!-- Profile Section -->
+          <!-- <div class="d-flex align-items-center px-4 mb-4">
+            <img
+              src="../assets/DisplayUserPhoto.png"
+              alt="Sebastian Cunningham"
+              class="profile-img rounded-circle border border-3 border-white border-opacity-25 me-3"
+              style="object-fit: cover; height: 75px; width: 75px"
+            />
+            <div>
+              <h5 class="fw-semibold mb-1">Sebastian Cunningham</h5>
+              <div class="d-flex gap-3">
+                <a
+                  href="#"
+                  class="text-white text-opacity-75 text-decoration-none small"
+                  >Profile</a
+                >
+                <a
+                  href="#"
+                  class="text-white text-opacity-75 text-decoration-none small"
+                  >Settings</a
+                >
               </div>
-              <div class="d-flex align-items-center text-muted pe-2">
-                <i class="bi bi-chevron-up" id="classResourcesIcon"></i>
-              </div>
+            </div>
+          </div> -->
+
+          <!-- Navigation Section -->
+          <div class="px-1 flex-grow-1">
+            <div class="list-group list-group-flush">
+              <a
+                href="https://simon.sfx.vic.edu.au/WebModules/LearningAreas/LearningAreasWorkDesk.aspx"
+                class="list-group-item list-group-item-action bg-transparent text-white border-0 border-bottom border-white border-opacity-10 py-3 nav-link-hover"
+              >
+                Learning Areas
+              </a>
+              <a
+                href="https://simon.sfx.vic.edu.au/WebModules/SchoolCalendars/SchoolCalendarsWorkDesk.aspx"
+                class="list-group-item list-group-item-action bg-transparent text-white border-0 border-bottom border-white border-opacity-10 py-3 nav-link-hover"
+              >
+                Calendar
+              </a>
+              <a
+                href="http://bea-v-print-01.curric.stfx:9191/app"
+                class="list-group-item list-group-item-action bg-transparent text-white border-0 border-bottom border-white border-opacity-10 py-3 nav-link-hover"
+              >
+                WebPrint
+              </a>
             </div>
           </div>
 
-          <!-- BODY -->
-          <div class="collapse show" id="classResourcesContent">
-            <div class="d-flex flex-wrap gap-2 px-2 mb-2">
-              <div class="resource-card">
-                <div class="card-body py-2 rounded">
-                  <h6 class="card-title h6 mb-1 fw-medium text-dark">
-                    <span id="dueCountText"></span> Due
-                  </h6>
-                </div>
-              </div>
-
-              <div class="resource-card">
-                <div class="card-body py-2 rounded">
-                  <h6 class="card-title h6 mb-1 fw-medium text-dark">
-                    <span id="overdueCountText"></span> Overdue
-                  </h6>
-                </div>
-              </div>
-
-              <div class="resource-card">
-                <div class="card-body py-2 rounded">
-                  <h6 class="card-title h6 mb-1 fw-medium text-dark">
-                    <span id="resultsCountText"></span> Results
-                  </h6>
-                </div>
-              </div>
+          <!-- Logout Section -->
+          <div class="p-4 border-top border-white border-opacity-10 mt-auto">
+            <a
+              href="/logout"
+              type="button"
+              class="btn btn-outline-light bg-white bg-opacity-10 border-white border-opacity-25 w-100 d-flex align-items-center justify-content-center gap-2 py-3"
+            >
+              <i class="bi bi-box-arrow-right"></i>
+              Log out
+            </a>
+            <div class="text-center mt-3 small text-white text-opacity-50">
+              <div>nSIMON</div>
             </div>
-          </div>
-        </div>
-        <!-- QUICK LINKS -->
-        <div class="card">
-          <!-- HEADER -->
-          <div
-            class="section-header"
-            data-bs-toggle="collapse"
-            data-bs-target="#quickLinksContent"
-            aria-expanded="true"
-            aria-controls="quickLinksContent"
-          >
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
-                <h6 class="section-title">QUICK LINKS</h6>
-              </div>
-              <div class="d-flex align-items-center text-muted pe-2">
-                <i class="bi bi-chevron-up" id="quickLinksIcon"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- BODY -->
-          <div class="collapse show" id="quickLinksContent">
-            <div id="quickLinksContainer"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Daily Messages -->
-      <div
-        class="col-12 col-lg-6 mb-2 mb-lg-0 order-2 order-lg-2 dashboard-main"
-      >
-        <div class="card">
-          <!-- HEADER -->
-          <div
-            class="section-header"
-            data-bs-toggle="collapse"
-            data-bs-target="#dailyMessagesContent"
-            aria-expanded="true"
-            aria-controls="dailyMessagesContent"
-          >
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
-                <h6 class="section-title">
-                  DAILY MESSAGES
-                  <span class="badge text-bg-danger ms-2">
-                    <span id="dailyMessagesCountNew"></span> NEW
-                  </span>
-                </h6>
-              </div>
-              <div class="d-flex align-items-center text-muted pe-2">
-                <i class="bi bi-chevron-up" id="dailyMessagesIcon"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- BODY -->
-          <div
-            class="collapse show messages-container"
-            id="dailyMessagesContent"
-          >
-            <!-- MESSAGES -->
-            <div id="dashboardMessagesHolder"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Timetable -->
-      <div class="col-12 col-lg-3 order-1 order-lg-3 mb-2">
-        <div class="card">
-          <div
-            class="section-header"
-            data-bs-toggle="collapse"
-            data-bs-target="#timetableContent"
-            aria-expanded="true"
-            aria-controls="timetableContent"
-          >
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
-                <h6 class="section-title">TIMETABLE</h6>
-              </div>
-              <div class="d-flex align-items-center text-muted pe-2">
-                <i class="bi bi-chevron-up" id="timetableIcon"></i>
-              </div>
-            </div>
-          </div>
-          <div class="collapse show timetable-container" id="timetableContent">
-            <div class="d-flex justify-content-center align-items-start gap-2">
-              <button id="prevDay" class="btn btn-sm" style="height: auto">
-                <i class="bi bi-arrow-left"></i>
-              </button>
-
-              <span style="font-size: medium" id="timetableDay"> Loading </span>
-
-              <button id="nextDay" class="btn btn-sm" style="height: auto">
-                <i class="bi bi-arrow-right"></i>
-              </button>
-            </div>
-
-            <div id="timetableHolder">asdasd</div>
           </div>
         </div>
       </div>
 
-      <script>
-        // Constants and variables
-        const DAYS_OF_WEEK = [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ];
-        const QUICK_LINKS = [
-          {
-            name: "WebPrint",
-            url: "http://bea-v-print-01.curric.stfx:9191/app",
-          },
-          { name: "Careers", url: "https://www.sfxcareers.com.au/" },
-          { name: "CDF Pay", url: "https://user.cdfpay.flexischools.com.au/" },
-          {
-            name: "Clickview",
-            url: "https://saml-in3.clickview.com.au/Shibboleth.sso/STF1792",
-          },
-          {
-            name: "2026 Beaconsfield Leadership",
-            url: "https://simon.sfx.vic.edu.au/WebHandlers/DownloadKnowledgeBankDocument.ashx?DocID=24786&KBankID=25&UserID=25",
-          },
-          {
-            name: "Beaconsfield Solar",
-            url: "https://www.solarweb.com/Home/GuestLogOn?pvSystemId=f27f25bd-06f1-48e2-819f-b227257a9892",
-          },
-          { name: "School Website", url: "http://www.sfx.vic.edu.au/" },
-          { name: "Office 365", url: "https://portal.office.com/" },
-        ];
-
-        let currentDate = new Date();
-        let currentISOString = currentDate.toISOString();
-        let unixTimestamp = currentDate.getTime();
-        let unixTimestampInSeconds = Math.floor(unixTimestamp / 1000);
-        let totalDailyMessages = 0;
-        let totalNewDailyMessages = 0;
-
-        // Utility functions
-        const Utils = {
-          formatTimestamp(timestampString) {
-            const timestamp = parseInt(timestampString.match(/\d+/)[0]);
-            const date = new Date(timestamp);
-
-            const day = String(date.getDate()).padStart(2, "0");
-            const month = String(date.getMonth() + 1).padStart(2, "0");
-            const year = date.getFullYear();
-            let hours = date.getHours();
-            const minutes = String(date.getMinutes()).padStart(2, "0");
-            const ampm = hours >= 12 ? "PM" : "AM";
-
-            hours = hours % 12 || 12;
-
-            return `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
-          },
-
-          timeToMinutes(time) {
-            const [hours, minutes] = time.split(":").map(Number);
-            return hours * 60 + minutes;
-          },
-
-          convertToAMPM(timeString) {
-            const [hours, minutes] = timeString.split(":");
-            const hour = parseInt(hours, 10);
-            const period = hour >= 12 ? "PM" : "AM";
-            const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
-            return `${formattedHour}:${minutes}${period}`;
-          },
-
-          getNextMonday(currentISODate) {
-            const currentDate = new Date(currentISODate);
-            const dayOfWeek = currentDate.getDay();
-            const daysUntilMonday = (8 - dayOfWeek) % 7;
-            const nextMonday = new Date(currentDate);
-            nextMonday.setDate(currentDate.getDate() + daysUntilMonday);
-            return nextMonday.toISOString();
-          },
-
-          removeColorStyles(htmlString) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlString, "text/html");
-            const styledElements = doc.querySelectorAll("[style]");
-
-            styledElements.forEach((elem) => {
-              const styles = elem
-                .getAttribute("style")
-                .split(";")
-                .filter((style) => {
-                  const trimmedStyle = style.trim();
-                  return (
-                    !trimmedStyle.startsWith("color:") &&
-                    !trimmedStyle.startsWith("background-color:") &&
-                    !trimmedStyle.startsWith("background:")
-                  );
-                });
-              elem.setAttribute("style", styles.join(";"));
-            });
-
-            return doc.body.innerHTML;
-          },
-
-          extractNumberFromString(text) {
-            const match = text.match(/(\d+)/);
-            return match ? parseInt(match[0]) : null;
-          },
-
-          isNewMessage(unixTimestamp) {
-            const newUnix = parseInt(unixTimestamp.replace(/\D/g, ""), 10);
-            const dateUnix = new Date(newUnix);
-            const today = new Date();
-
-            return dateUnix.toDateString() === today.toDateString();
-          },
-
-          createCard(className = "card border-2 border-0 mx-2 rounded") {
-            const card = document.createElement("div");
-            card.className = className;
-            return card;
-          },
-
-          createCardBody(className = "card-body py-2 rounded") {
-            const cardBody = document.createElement("div");
-            cardBody.className = className;
-            return cardBody;
-          },
-        };
-      </script>
-
-      <!-- API Functions -->
-      <script>
-        const API = {
-          async fetchData(endpoint, data = {}) {
-            try {
-              const response = await fetch(endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-              });
-              return await response.json();
-            } catch (error) {
-              console.error(`Error fetching ${endpoint}:`, error);
-              throw error;
-            }
-          },
-
-          async loadClassResources() {
-            try {
-              const data = await this.fetchData("/api/getClasses");
-              document.getElementById("dueCountText").textContent =
-                data.d.DueTasksStudent.length;
-              document.getElementById("overdueCountText").textContent =
-                data.d.OverDueTasksStudent.length;
-
-              const totalTasks = data.d.ResultTasksStudent.reduce(
-                (total, cls) => total + cls.Tasks.length,
-                0
-              );
-              document.getElementById("resultsCountText").textContent =
-                totalTasks;
-            } catch (error) {
-              console.error("Failed to load class resources:", error);
-            }
-          },
-
-          async loadDailyMessages() {
-            try {
-              const data = await this.fetchData("/api/getDailyMessages", {
-                date: currentISOString,
-              });
-              const container = document.getElementById(
-                "dashboardMessagesHolder"
-              );
-
-              data.d.SchoolMessages.forEach((message) => {
-                if (
-                  unixTimestampInSeconds <
-                  Utils.extractNumberFromString(message.StartDateTime)
-                ) {
-                  totalDailyMessages++;
-                  container.appendChild(this.createMessageCard(message));
-                }
-              });
-
-              document.getElementById("dailyMessagesCountNew").textContent =
-                totalNewDailyMessages;
-            } catch (error) {
-              console.error("Failed to load daily messages:", error);
-            }
-          },
-
-          createMessageCard(message) {
-            const card = Utils.createCard(
-              "card border-2 border-0 mx-2 rounded bg-secondary-light shadow-sm mb-3"
-            );
-            const cardBody = Utils.createCardBody();
-
-            const title = document.createElement("h6");
-            title.className = "card-title h6 mb-1 fw-medium text-dark";
-            title.textContent = message.MessageTitle;
-
-            // Add category badge
-            const categoryBadge = document.createElement("span");
-            categoryBadge.className = "badge text-bg-secondary ms-2";
-            categoryBadge.textContent = message.SchoolMessageCategoryTitle;
-            title.appendChild(categoryBadge);
-
-            // Add NEW badge if message is new
-            if (Utils.isNewMessage(message.StartDateTime)) {
-              totalNewDailyMessages++;
-              const newBadge = document.createElement("span");
-              newBadge.className = "badge text-bg-danger ms-1";
-              newBadge.textContent = "NEW";
-              title.appendChild(newBadge);
-            }
-
-            const content = document.createElement("p");
-            content.className = "card-text small text-muted mb-0";
-            content.innerHTML = Utils.removeColorStyles(message.MessageContent);
-
-            cardBody.appendChild(title);
-            cardBody.appendChild(content);
-            card.appendChild(cardBody);
-
-            return card;
-          },
-
-          async loadWeather() {
-            try {
-              const data = await this.fetchData("/api/getWeather");
-              document.getElementById("weatherTemperature").textContent =
-                data.currentTemperature.toFixed(1) + "°";
-              document.getElementById("weatherConditions").textContent =
-                data.currentDescription;
-              document.getElementById(
-                "weatherIconImage"
-              ).src = `/static/icons/airy/${data.currentIcon}@4x.png`;
-            } catch (error) {
-              console.error("Failed to load weather:", error);
-            }
-          },
-        };
-      </script>
-
-      <!-- Timetable Functions -->
-      <script>
-        const Timetable = {
-          currentDate: new Date(),
-
-          init() {
-            document
-              .getElementById("prevDay")
-              .addEventListener("click", () => this.navigateDay(-1));
-            document
-              .getElementById("nextDay")
-              .addEventListener("click", () => this.navigateDay(1));
-            this.fetchTimetable(this.currentDate);
-          },
-
-          navigateDay(direction) {
-            this.setLoadingState(true);
-            this.currentDate.setDate(this.currentDate.getDate() + direction);
-            this.fetchTimetable(this.currentDate);
-          },
-
-          setLoadingState(loading) {
-            const dayText = document.getElementById("timetableDay");
-            const prevBtn = document.getElementById("prevDay");
-            const nextBtn = document.getElementById("nextDay");
-
-            dayText.textContent = loading ? "Loading" : dayText.textContent;
-            prevBtn.disabled = loading;
-            nextBtn.disabled = loading;
-          },
-
-          async fetchTimetable(date) {
-            const dateString = date.toISOString();
-            const dayOfWeek = date.getDay();
-            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-
-            const container = document.getElementById("timetableHolder");
-            container.innerHTML = "";
-
-            try {
-              const requestDate = isWeekend
-                ? Utils.getNextMonday(dateString)
-                : dateString;
-              const data = await API.fetchData("/api/getTimetable", {
-                date: requestDate,
-              });
-              this.addTimetable(data, isWeekend, date);
-            } catch (error) {
-              console.error("Failed to load timetable:", error);
-              container.innerHTML =
-                '<div class="text-center text-muted">Failed to load timetable</div>';
-            } finally {
-              this.setLoadingState(false);
-            }
-          },
-
-          addTimetable(data, isWeekend, date) {
-            const container = document.getElementById("timetableHolder");
-            const dayText = document.getElementById("timetableDay");
-
-            dayText.textContent = isWeekend
-              ? "Weekend"
-              : data.d.Info.replace(/^Timetable\s+/, "");
-
-            if (isWeekend) {
-              container.innerHTML =
-                '<div class="text-center text-muted">Enjoy your Weekend. Here are your classes for Monday.</div>';
-            }
-
-            const isToday =
-              this.currentDate.toDateString() === new Date().toDateString();
-            const now = new Date();
-
-            data.d.Periods.forEach((period) => {
-              const periodCard = this.createPeriodCard(period, isToday, now);
-              container.appendChild(periodCard);
-            });
-          },
-
-          createPeriodCard(period, isToday, now) {
-            const [year, month, day] = [
-              this.currentDate.getFullYear(),
-              this.currentDate.getMonth(),
-              this.currentDate.getDate(),
-            ];
-            const [startHour, startMinute] =
-              period.StartTime.split(":").map(Number);
-            const [endHour, endMinute] = period.EndTime.split(":").map(Number);
-
-            const startDate = new Date(
-              year,
-              month,
-              day,
-              startHour,
-              startMinute
-            );
-            const endDate = new Date(year, month, day, endHour, endMinute);
-
-            let cardClass = "card border-2 border-0 mx-2 rounded";
-            let cardBodyClass =
-              "card-body py-2 d-flex justify-content-between align-items-center rounded";
-            let titleClass = "card-title h6 mb-1 fw-medium text-dark";
-            let subtitleClass = "card-text small text-muted mb-0";
-
-            // Determine card styling based on time and period type
-            if (period.IsTeachingPeriod) {
-              if (isToday && now >= startDate && now <= endDate) {
-                cardClass =
-                  "card border-2 border-primary shadow-sm mx-2 rounded";
-                cardBodyClass =
-                  "card-body py-2 d-flex justify-content-between align-items-center border-start border-secondary border-5 rounded";
-              } else if (isToday && now > endDate) {
-                titleClass = "card-title h6 mb-1 fw-medium timetable-past";
-                subtitleClass = "card-text small mb-0 timetable-past-secondary";
-              }
-            } else {
-              cardClass = "card mx-2 rounded border-0";
-              cardBodyClass += " bg-light";
-            }
-
-            const card = document.createElement("div");
-            card.className = cardClass;
-            if (!period.IsTeachingPeriod) {
-              card.style.backgroundColor = "#e0e0e0";
-            }
-
-            const cardBody = document.createElement("div");
-            cardBody.className = cardBodyClass;
-
-            const leftDiv = document.createElement("div");
-            const title = document.createElement("h6");
-            title.className = titleClass;
-            title.textContent = period.Description;
-            leftDiv.appendChild(title);
-
-            if (period.IsTeachingPeriod && period.Classes[0]) {
-              const subtitle = document.createElement("p");
-              subtitle.className = subtitleClass;
-              subtitle.textContent = `${period.Classes[0].TeacherName} @ ${period.Classes[0].Room}`;
-              leftDiv.appendChild(subtitle);
-            }
-
-            const rightDiv = document.createElement("div");
-            rightDiv.className = "d-flex align-items-center gap-2";
-
-            const timeSpan = document.createElement("span");
-            timeSpan.className = "small text-muted fw-medium";
-            timeSpan.textContent = `${Utils.convertToAMPM(
-              period.StartTime
-            )} - ${Utils.convertToAMPM(period.EndTime)}`;
-            rightDiv.appendChild(timeSpan);
-
-            cardBody.appendChild(leftDiv);
-            cardBody.appendChild(rightDiv);
-            card.appendChild(cardBody);
-
-            return card;
-          },
-        };
-      </script>
-
-      <!-- Quick Links Generator -->
-      <script>
-        const QuickLinks = {
-          init() {
-            const container = document.getElementById("quickLinksContainer");
-            QUICK_LINKS.forEach((link) => {
-              container.appendChild(this.createQuickLinkCard(link));
-            });
-          },
-
-          createQuickLinkCard(link) {
-            const linkElement = document.createElement("a");
-            linkElement.href = link.url;
-            linkElement.target = "_blank";
-            linkElement.className = "text-decoration-none";
-
-            const card = document.createElement("div");
-            card.className = "quick-link-card";
-
-            const cardBody = document.createElement("div");
-            cardBody.className =
-              "card-body py-2 d-flex justify-content-between align-items-center rounded";
-
-            const leftDiv = document.createElement("div");
-            const title = document.createElement("h6");
-            title.className = "card-title h6 mb-1 fw-medium text-dark";
-            title.textContent = link.name;
-            leftDiv.appendChild(title);
-
-            const rightDiv = document.createElement("div");
-            rightDiv.className = "d-flex align-items-center gap-2";
-            const icon = document.createElement("span");
-            icon.className = "small text-muted fw-medium";
-            icon.innerHTML = '<i class="bi bi-box-arrow-up-right"></i>';
-            rightDiv.appendChild(icon);
-
-            cardBody.appendChild(leftDiv);
-            cardBody.appendChild(rightDiv);
-            card.appendChild(cardBody);
-            linkElement.appendChild(card);
-
-            return linkElement;
-          },
-        };
-      </script>
-
-      <!-- Collapse Management -->
-      <script>
-        const CollapseManager = {
-          init() {
-            const sections = [
-              ["quickLinksIcon", "quickLinksContent"],
-              ["classResourcesIcon", "classResourcesContent"],
-              ["weatherIcon", "weatherContent"],
-              ["timetableIcon", "timetableContent"],
-              ["dailyMessagesIcon", "dailyMessagesContent"],
-            ];
-
-            sections.forEach(([iconId, contentId]) =>
-              this.setupCollapse(iconId, contentId)
-            );
-          },
-
-          setupCollapse(iconId, contentId) {
-            const icon = document.getElementById(iconId);
-            const content = document.getElementById(contentId);
-
-            if (!icon || !content) return;
-
-            content.addEventListener("shown.bs.collapse", () => {
-              icon.classList.remove("bi-chevron-down");
-              icon.classList.add("bi-chevron-up");
-            });
-
-            content.addEventListener("hidden.bs.collapse", () => {
-              icon.classList.remove("bi-chevron-up");
-              icon.classList.add("bi-chevron-down");
-            });
-          },
-        };
-      </script>
-
-      <!-- Main Application Initialization -->
-      <script>
-        document.addEventListener("DOMContentLoaded", async function () {
-          try {
-            // Initialize UI components
-            CollapseManager.init();
-            QuickLinks.init();
-            Timetable.init();
-
-            // Load data asynchronously
-            await Promise.allSettled([
-              API.loadClassResources(),
-              API.loadDailyMessages(),
-              API.loadWeather(),
-            ]);
-
-            console.log("Dashboard initialized successfully");
-          } catch (error) {
-            console.error("Failed to initialize dashboard:", error);
-          }
-        });
-      </script>
-
-      {% endblock %}
+      <!-- Content -->
+      <div class="card border-0 shadow m-1 mt-2" style="flex-grow: 1">
+        <div class="dashboard-header rounded-top">
+          <h6>Student Dashboard</h6>
+        </div>
+        <div class="container-fluid w-full">
+          <div class="row ps-1 pe-1 mt-1">
+            <div class="col col-3 pt-1 px-1">
+              <div class="card border-0 shadow-sm">
+                <div
+                  class="card-header bg-primary text-white border-0 rounded-top d-flex justify-content-between align-items-center"
+                  style="background: #367cb2 !important"
+                >
+                  <h6 class="mb-0 fw-semibold">CLASS RESOURCES</h6>
+                  <button
+                    class="btn btn-sm p-0 text-white border-0 bg-transparent collapse-toggle"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#classResourcesCollapsable"
+                    aria-expanded="true"
+                    aria-controls="classResourcesCollapsable"
+                    style="font-size: 1.2rem"
+                  >
+                    <i class="bi bi-chevron-up"></i>
+                  </button>
+                </div>
+
+                <div class="collapse show" id="classResourcesCollapsable">
+                  <div
+                    class="card-body bg-light p-2"
+                    style="height: 20.5vh; background-color: #eeeeee !important"
+                  >
+                    <div
+                      class="card-body py-2 rounded bg-secondary-light shadow-sm m-0 mb-1"
+                    >
+                      <h6 class="card-title h6 m-0 fw-medium text-dark">
+                        <span id="test123123">0</span> Due
+                      </h6>
+                    </div>
+                    <div
+                      class="card-body py-2 rounded bg-secondary-light shadow-sm m-0 mb-1"
+                    >
+                      <h6 class="card-title h6 m-0 fw-medium text-dark">
+                        <span id="test123123123">0</span> Results
+                      </h6>
+                    </div>
+                    <div
+                      class="card-body py-2 rounded bg-secondary-light shadow-sm m-0 mb-1"
+                    >
+                      <h6 class="card-title h6 m-0 fw-medium text-dark">
+                        <span id="test123123123123123">0</span> Overdue
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border-0 shadow-sm mt-2">
+                <div
+                  class="card-header bg-primary text-white border-0 rounded-top d-flex justify-content-between align-items-center"
+                  style="background: #367cb2 !important"
+                >
+                  <h6 class="mb-0 fw-semibold">QUICK LINKS</h6>
+                  <button
+                    class="btn btn-sm p-0 text-white border-0 bg-transparent collapse-toggle"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#quickLinksCollapsable"
+                    aria-expanded="true"
+                    aria-controls="quickLinksCollapsable"
+                    style="font-size: 1.2rem"
+                  >
+                    <i class="bi bi-chevron-up"></i>
+                  </button>
+                </div>
+
+                <div class="collapse show" id="quickLinksCollapsable">
+                  <div
+                    class="card-body bg-light p-2"
+                    style="height: 37.5vh; background-color: #eeeeee !important"
+                  >
+                    <div id="quickLinksContainer"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col col-6 pt-1 px-1">
+              <div class="card border-0 shadow-sm">
+                <div
+                  class="card-header bg-primary text-white border-0 rounded-top d-flex justify-content-between align-items-center"
+                  style="background: #367cb2 !important"
+                >
+                  <h6 class="mb-0 fw-semibold">DAILY MESSAGES</h6>
+                  <button
+                    class="btn btn-sm p-0 text-white border-0 bg-transparent collapse-toggle"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#dailyMessagesCollapsable"
+                    aria-expanded="true"
+                    aria-controls="dailyMessagesCollapsable"
+                    style="font-size: 1.2rem"
+                  >
+                    <i class="bi bi-chevron-up"></i>
+                  </button>
+                </div>
+
+                <div class="collapse show" id="dailyMessagesCollapsable">
+                  <div
+                    class="card-body bg-light p-2"
+                    style="height: 65vh; background-color: #eeeeee !important"
+                  >
+                    <div
+                      id="dailyMessageHolder"
+                      style="height: 100%; overflow-y: auto"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col col-3 pt-1 px-1">
+              <div class="card border-0 shadow-sm">
+                <div
+                  class="card-header bg-primary text-white border-0 rounded-top d-flex justify-content-between align-items-center"
+                  style="background: #367cb2 !important"
+                >
+                  <h6 class="mb-0 fw-semibold">TIMETABLE</h6>
+                  <button
+                    class="btn btn-sm p-0 text-white border-0 bg-transparent collapse-toggle"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#timetableCollapsable"
+                    aria-expanded="true"
+                    aria-controls="timetableCollapsable"
+                    style="font-size: 1.2rem"
+                  >
+                    <i class="bi bi-chevron-up"></i>
+                  </button>
+                </div>
+
+                <div class="collapse show" id="timetableCollapsable">
+                  <div
+                    class="card-body bg-light pt-1 px-2"
+                    style="height: 65vh; background-color: #eeeeee !important"
+                  >
+                    <input
+                      id="timetableDate"
+                      class="form-control"
+                      type="date"
+                    />
+                    <div id="timetableContainer" class="pt-1">
+                      <!-- Past Period -->
+                      <div class="card border-0 rounded">
+                        <div
+                          class="card-body py-2 px-2 d-flex justify-content-between align-items-center rounded"
+                        >
+                          <div class="d-flex flex-column">
+                            <h6
+                              class="card-title h6 mb-0 fw-medium timetable-past"
+                              style="font-size: 0.7rem; line-height: 1.5"
+                            >
+                              Period Description
+                            </h6>
+                            <p
+                              class="card-text mb-0 timetable-past-secondary"
+                              style="font-size: 0.9rem; line-height: 1.1"
+                            >
+                              11RRECF2I @ FLA12
+                            </p>
+                          </div>
+                          <div class="text-end">
+                            <span
+                              class="timetable-past-secondary fw-medium"
+                              style="font-size: 0.8rem; line-height: 1.1"
+                              >9:00 AM - 10:00 AM</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Current Period -->
+                      <div
+                        class="card border-2 border-primary shadow-sm rounded"
+                      >
+                        <div
+                          class="card-body py-2 px-2 d-flex justify-content-between align-items-center border-start border-secondary border-3 rounded"
+                        >
+                          <div class="d-flex flex-column">
+                            <h6
+                              class="card-title h6 mb-0 fw-medium text-dark"
+                              style="font-size: 0.7rem; line-height: 1.5"
+                            >
+                              Period Description
+                            </h6>
+                            <p
+                              class="card-text mb-0 text-muted"
+                              style="font-size: 0.9rem; line-height: 1.1"
+                            >
+                              11RRECF2I @ FLA12
+                            </p>
+                          </div>
+                          <div class="text-end">
+                            <span
+                              class="text-muted fw-medium"
+                              style="font-size: 0.8rem; line-height: 1.1"
+                              >9:00 AM - 10:00 AM</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Future Period -->
+                      <div class="card border-0 rounded">
+                        <div
+                          class="card-body py-2 px-2 d-flex justify-content-between align-items-center border-0 rounded"
+                        >
+                          <div class="d-flex flex-column">
+                            <h6
+                              class="card-title h6 mb-0 fw-medium text-dark"
+                              style="font-size: 0.7rem; line-height: 1.5"
+                            >
+                              Period Description
+                            </h6>
+                            <p
+                              class="card-text mb-0 text-muted"
+                              style="font-size: 0.9rem; line-height: 1.1"
+                            >
+                              11RRECF2I @ FLA12
+                            </p>
+                          </div>
+                          <div class="text-end">
+                            <span
+                              class="text-muted fw-medium"
+                              style="font-size: 0.8rem; line-height: 1.1"
+                              >9:00 AM - 10:00 AM</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Non Teaching Period -->
+                      <div class="card border-0 rounded">
+                        <div
+                          class="card-body py-2 px-2 d-flex justify-content-between align-items-center border-0 rounded"
+                          style="background-color: rgb(205, 205, 205)"
+                        >
+                          <div class="d-flex align-items-center">
+                            <p
+                              class="card-text mb-0 text-muted fw-semibold"
+                              style="font-size: 0.8rem; line-height: 1.1"
+                            >
+                              LUNCH DUTY
+                            </p>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span
+                              class="text-muted fw-medium"
+                              style="font-size: 0.8rem; line-height: 1.1"
+                              >9:00 AM - 10:00 AM</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCRIPTS -->
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"
+      ></script>
+      <script src="{{ url_for('static', filename='js/datePicker.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/timetable.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/dailyMessages.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/classResources.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/quickLinks.js') }}"></script>
     </div>
-  </div>
-</div>
+  </body>
+</html>
