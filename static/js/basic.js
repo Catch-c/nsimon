@@ -28,6 +28,36 @@ function fetchUserInformation() {
     .catch((error) => console.error("Error fetching weather:", error));
 }
 
+function fetchSIMONLink() {
+  fetch("/api/simon", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // LINKS
+      document.getElementById(
+        "secondNavLearningAreas"
+      ).href = `${data.link}/WebModules/LearningAreas/LearningAreasWorkDesk.aspx`;
+      document.getElementById(
+        "secondNavProfile"
+      ).href = `${data.link}/profiles/students/5927/aspx/GeneralInformation/StudentDashboard.aspx`;
+      document.getElementById(
+        "sidebarLearningAreas"
+      ).href = `${data.link}/WebModules/LearningAreas/LearningAreasWorkDesk.aspx`;
+      document.getElementById(
+        "sidebarCalendar"
+      ).href = `${data.link}/WebModules/SchoolCalendars/SchoolCalendarsWorkDesk.aspx`;
+
+      // VERSION
+      document.getElementById("sidebarVersion").innerText = `v${data.version}`;
+    })
+    .catch((error) => console.error("Error fetching weather:", error));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   fetchUserInformation();
+  fetchSIMONLink();
 });

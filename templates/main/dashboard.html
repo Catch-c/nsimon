@@ -70,7 +70,10 @@
   </head>
 
   <body>
-    <div style="display: flex; flex-direction: column; height: 100vh">
+    <div
+      class="main-container"
+      style="display: flex; flex-direction: column; height: 100vh"
+    >
       <!-- Navbar -->
       <nav class="navbar navbar-dark py-0 ps-0 pe-2">
         <div class="container-fluid py-0 ps-0 pe-2">
@@ -109,16 +112,12 @@
           <div class="d-flex">
             <ul class="navbar-nav d-flex flex-row me-auto">
               <li class="nav-item me-3">
-                <a
-                  class="nav-link"
-                  href="https://simon.sfx.vic.edu.au/WebModules/LearningAreas/LearningAreasWorkDesk.aspx"
+                <a id="secondNavLearningAreas" class="nav-link" href=""
                   >Learning Areas</a
                 >
               </li>
               <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="https://simon.sfx.vic.edu.au/profiles/students/5927/aspx/GeneralInformation/StudentDashboard.aspx/"
+                <a id="secondNavProfile" class="nav-link" href=""
                   >Student Profile</a
                 >
               </li>
@@ -169,13 +168,15 @@
           <div class="px-1 flex-grow-1">
             <div class="list-group list-group-flush">
               <a
-                href="https://simon.sfx.vic.edu.au/WebModules/LearningAreas/LearningAreasWorkDesk.aspx"
+                id="sidebarLearningAreas"
+                href=""
                 class="list-group-item list-group-item-action bg-transparent text-white border-0 border-bottom border-white border-opacity-10 py-3 nav-link-hover"
               >
                 Learning Areas
               </a>
               <a
-                href="https://simon.sfx.vic.edu.au/WebModules/SchoolCalendars/SchoolCalendarsWorkDesk.aspx"
+                id="sidebarCalendar"
+                href=""
                 class="list-group-item list-group-item-action bg-transparent text-white border-0 border-bottom border-white border-opacity-10 py-3 nav-link-hover"
               >
                 Calendar
@@ -200,7 +201,7 @@
               Log out
             </a>
             <div class="text-center mt-3 small text-white text-opacity-50">
-              <div>nSIMON</div>
+              <div>nSIMON <span id="sidebarVersion"></span></div>
             </div>
           </div>
         </div>

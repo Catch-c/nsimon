@@ -1,7 +1,13 @@
 import requests, time, re
+import os
+from dotenv import load_dotenv
+
+# --[[ Load Environment Variables ]]--
+load_dotenv()
+SIMON_LINK = os.getenv('SIMON_LINK', 'https://simon.sfx.vic.edu.au')
 
 def checkCookie(cookie):
-    url = "https://simon.sfx.vic.edu.au/WebServices/Default.asmx/UserInformation"
+    url = f"{SIMON_LINK}/WebServices/Default.asmx/UserInformation"
     headers = {"Content-Type": "application/json", "Cookie": f"adAuthCookie={cookie}"}
 
     response = requests.post(url, headers=headers)
@@ -13,7 +19,7 @@ def checkCookie(cookie):
 
 
 def getTimetable(cookie, time):
-    url = "https://simon.sfx.vic.edu.au/WebServices/Default.asmx/GetTimetable"
+    url = f"{SIMON_LINK}/WebServices/Default.asmx/GetTimetable"
     headers = {"Content-Type": "application/json", "Cookie": f"adAuthCookie={cookie}"}
 
     data = {"selectedDate": time, "selectedGroup": "BEA"}
@@ -23,7 +29,7 @@ def getTimetable(cookie, time):
     return response.json()
 
 def getDailyMessages(cookie, time):
-    url = "https://simon.sfx.vic.edu.au/WebServices/SchoolMessagesAPI.asmx/GetWorkDeskDailyMessages"
+    url = f"{SIMON_LINK}/WebServices/SchoolMessagesAPI.asmx/GetWorkDeskDailyMessages"
     headers = {"Content-Type": "application/json", "Cookie": f"adAuthCookie={cookie}"}
 
     data = {"messageDate": time}
@@ -33,7 +39,7 @@ def getDailyMessages(cookie, time):
     return response.json()
 
 def getClassResources(cookie):
-    url = "https://simon.sfx.vic.edu.au/WebServices/Default.asmx/GetClassResources"
+    url = f"{SIMON_LINK}/WebServices/Default.asmx/GetClassResources"
     headers = {"Content-Type": "application/json", "Cookie": f"adAuthCookie={cookie}"}
 
     data = {"FileSeq": 48, "UserID": None}
@@ -43,7 +49,7 @@ def getClassResources(cookie):
 
 
 def getUserInformation(cookie):
-    url = "https://simon.sfx.vic.edu.au/WebServices/Default.asmx/UserInformation"
+    url = f"{SIMON_LINK}/WebServices/Default.asmx/UserInformation"
     headers = {"Content-Type": "application/json", "Cookie": f"adAuthCookie={cookie}"}
 
     response = requests.post(url, headers=headers)

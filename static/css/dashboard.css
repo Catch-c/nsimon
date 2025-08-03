@@ -97,6 +97,10 @@
     overflow-y: auto;
   }
 
+  .main-container {
+    height: auto !important;
+  }
+
   .mobile-stack {
     display: flex;
     flex-direction: column;

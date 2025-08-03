@@ -2,21 +2,53 @@
   background-color: #005f9d;
 }
 
-.small-navbar {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
+@media (max-width: 768px) {
+  .small-navbar {
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+    min-height: auto;
+  }
 
-.small-navbar .nav-link {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  font-size: 0.9rem;
-}
+  .small-navbar .container-fluid {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 
-.small-navbar .navbar-toggler {
-  padding: 0.25rem 0.5rem;
-}
+  .small-navbar .nav-link {
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
 
+  .small-navbar .navbar-nav {
+    margin-bottom: 0;
+  }
+
+  .small-navbar .nav-item {
+    margin-bottom: 0;
+  }
+
+  .small-navbar .navbar-toggler {
+    padding: 0.25rem 0.5rem;
+  }
+}
+@media (min-width: 769px) {
+  .small-navbar {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .small-navbar .nav-link {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .small-navbar .navbar-toggler {
+    padding: 0.25rem 0.5rem;
+  }
+}
 .offcanvas {
   background: linear-gradient(180deg, #02609e 0%, #2980b9 100%);
 }

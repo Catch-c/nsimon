@@ -49,15 +49,15 @@ from routes.backend.dashboard.getUserInformation import getUserInformationBluepr
 app.register_blueprint(getUserInformationBlueprint)
 
 
-
-# --[[ Get Version API ]]--
-@app.route('/api/version', methods=['GET'])
-def getVersion():
+# --[[ Get SIMON Link & Version API ]]--
+@app.route('/api/simon', methods=['GET'])
+def getSimon():
     """
-    Returns the version of the application.
+    Returns the SIMON link.
     """
+    link = os.getenv('SIMON_LINK', 'https://simon.sfx.vic.edu.au')
     version = os.getenv('APP_VERSION', '1.0.0')
-    return jsonify({'version': version})
+    return jsonify({'link': link, 'version': version})
 
 # --[[ Start ]]--
 # --[[ PRODUCTION ]]--

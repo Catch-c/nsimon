@@ -4,6 +4,11 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
+from dotenv import load_dotenv
+
+# --[[ Load Environment Variables ]]--
+load_dotenv()
 
 def getCookie(username, password):
     options = webdriver.ChromeOptions()    
@@ -14,7 +19,7 @@ def getCookie(username, password):
     wait = WebDriverWait(driver, 10)  # Wait up to 10 seconds
 
     try:
-        driver.get("https://simon.sfx.vic.edu.au/Login/Default.aspx?ReturnUrl=%2F")
+        driver.get(f"{os.getenv('SIMON_LINK', 'https://simon.sfx.vic.edu.au')}/Login/Default.aspx?ReturnUrl=%2F")
 
         # Wait for username input to be present
         wait.until(EC.presence_of_element_located((By.ID, "inputUsername")))
