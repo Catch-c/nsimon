@@ -331,12 +331,133 @@ function fetchTimetable(date) {
     .catch((error) => console.error("Error fetching timetable:", error));
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  let timetableDate = document.getElementById("timetableDate");
+function fetchTimetableNextDay(date) {
+  let timetableContainer = document.getElementById("timetableContainer");
 
-  fetchTimetable(timetableDate.value);
+  const dateStatus = compareDateWithToday(date);
+
+  const requestDate = `${date}T04:39:50.000Z`;
+  fetch("/api/getTimetable", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      date: requestDate,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      timetableContainer.innerHTML = "";
+      const timetableData = data["d"];
+
+      let newTimetableItem = createNonTeachingTimetableCard(
+        "Weekend (No Classes) | Here are your classes for Monday.",
+        ``
+      );
+      timetableContainer.appendChild(newTimetableItem);
+
+      for (const period of data["d"]["Periods"]) {
+        const isNowResult = isNow(period.StartTime, period.EndTime);
+
+        if (period.IsTeachingPeriod) {
+          if (dateStatus === 0) {
+            const isNowResult = isNow(period.StartTime, period.EndTime);
+            if (isNowResult === 1) {
+              let newTimetableItem = createFutureTimetableCard(
+                period.Description,
+                `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
+                `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+                  period.EndTime
+                )}`,
+                period.Classes[0].TeacherName
+              );
+              timetableContainer.appendChild(newTimetableItem);
+            } else if (isNowResult === 2) {
+              let newTimetableItem = createCurrentTimetableCard(
+                period.Description,
+                `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
+                `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+                  period.EndTime
+                )}`,
+                period.Classes[0].TeacherName
+              );
+              timetableContainer.appendChild(newTimetableItem);
+            } else {
+              let newTimetableItem = createPastTimetableCard(
+                period.Description,
+                `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
+                `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+                  period.EndTime
+                )}`,
+                period.Classes[0].TeacherName
+              );
+              timetableContainer.appendChild(newTimetableItem);
+            }
+          } else if (dateStatus === -1) {
+            let newTimetableItem = createPastTimetableCard(
+              period.Description,
+              `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
+              `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+                period.EndTime
+              )}`,
+              period.Classes[0].TeacherName
+            );
+            timetableContainer.appendChild(newTimetableItem);
+          } else {
+            let newTimetableItem = createFutureTimetableCard(
+              period.Description,
+              `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
+              `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+                period.EndTime
+              )}`,
+              period.Classes[0].TeacherName
+            );
+            timetableContainer.appendChild(newTimetableItem);
+          }
+        } else {
+          let newTimetableItem = createNonTeachingTimetableCard(
+            period.Description,
+            `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+              period.EndTime
+            )}`
+          );
+          timetableContainer.appendChild(newTimetableItem);
+        }
+      }
+
+      const tooltipTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="tooltip"]'
+      );
+      const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+      );
+    })
+    .catch((error) => console.error("Error fetching timetable:", error));
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const timetableDate = document.getElementById("timetableDate");
+
+  function handleFetchTimetable(dateStr) {
+    const selectedDate = new Date(dateStr);
+    const day = selectedDate.getDay();
+
+    if (day === 6 || day === 0) {
+      const nextMonday = new Date(selectedDate);
+      const daysToAdd = day === 6 ? 2 : 1;
+      nextMonday.setDate(selectedDate.getDate() + daysToAdd);
+
+      const formattedMonday = nextMonday.toISOString().split("T")[0];
+      fetchTimetableNextDay(formattedMonday);
+    } else {
+      fetchTimetable(dateStr);
+    }
+  }
+
+  handleFetchTimetable(timetableDate.value);
 
   timetableDate.addEventListener("change", () => {
-    fetchTimetable(timetableDate.value);
+    handleFetchTimetable(timetableDate.value);
   });
 });
