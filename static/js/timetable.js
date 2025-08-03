@@ -1,3 +1,5 @@
+let currentTimetablePeriods = null;
+let currentDate = null;
 function createPastTimetableCard(periodName, details, timeRange, teacherName) {
   const card = document.createElement("div");
   card.className = "card border-0 rounded";
@@ -229,6 +231,7 @@ function fetchTimetable(date) {
   let timetableContainer = document.getElementById("timetableContainer");
 
   const dateStatus = compareDateWithToday(date);
+  currentDate = date;
 
   const requestDate = `${date}T04:39:50.000Z`;
   fetch("/api/getTimetable", {
@@ -244,6 +247,7 @@ function fetchTimetable(date) {
     .then((data) => {
       timetableContainer.innerHTML = "";
       const timetableData = data["d"];
+      currentTimetablePeriods = data["d"]["Periods"];
       if (data["d"]["Periods"].length === 0) {
         let newTimetableItem = createNonTeachingTimetableCard(
           "Weekend (No Classes)",
@@ -335,7 +339,7 @@ function fetchTimetableNextDay(date) {
   let timetableContainer = document.getElementById("timetableContainer");
 
   const dateStatus = compareDateWithToday(date);
-
+  currentDate = date;
   const requestDate = `${date}T04:39:50.000Z`;
   fetch("/api/getTimetable", {
     method: "POST",
@@ -350,6 +354,7 @@ function fetchTimetableNextDay(date) {
     .then((data) => {
       timetableContainer.innerHTML = "";
       const timetableData = data["d"];
+      currentTimetablePeriods = data["d"]["Periods"];
 
       let newTimetableItem = createNonTeachingTimetableCard(
         "Weekend (No Classes) | Here are your classes for Monday.",
@@ -432,6 +437,26 @@ function fetchTimetableNextDay(date) {
       const tooltipList = [...tooltipTriggerList].map(
         (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
       );
+    })
+    .catch((error) => console.error("Error fetching timetable:", error));
+}
+
+function createTimetableShare() {
+  fetch("/api/createTimetableShare", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      date: currentDate,
+      timetable: currentTimetablePeriods,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById(
+        "timetableShareInput"
+      ).value = `https://amazing-earwig-reliably.ngrok-free.app/s/${data}`;
     })
     .catch((error) => console.error("Error fetching timetable:", error));
 }

@@ -48,6 +48,15 @@ app.register_blueprint(getWeatherBlueprint)
 from routes.backend.dashboard.getUserInformation import getUserInformationBlueprint
 app.register_blueprint(getUserInformationBlueprint)
 
+from routes.backend.dashboard.createTimetableShare import createTimetableShareBlueprint
+app.register_blueprint(createTimetableShareBlueprint)
+
+from routes.backend.dashboard.getTimetableShare import getTimetableShareBlueprint
+app.register_blueprint(getTimetableShareBlueprint)
+
+from routes.public.share import shareBlueprint
+app.register_blueprint(shareBlueprint)
+
 
 # --[[ Get SIMON Link & Version API ]]--
 @app.route('/api/simon', methods=['GET'])

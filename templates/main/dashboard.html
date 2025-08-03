@@ -432,11 +432,23 @@
                     class="card-body bg-light pt-1 px-2"
                     style="height: 70vh; background-color: #ffffff !important"
                   >
-                    <input
-                      id="timetableDate"
-                      class="form-control"
-                      type="date"
-                    />
+                    <div class="d-flex gap-1 align-items-center">
+                      <input
+                        id="timetableDate"
+                        class="form-control"
+                        type="date"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#timetableShareModal"
+                        title="Share Timetable"
+                        onclick="createTimetableShare()"
+                      >
+                        <i class="bi bi-share"></i>
+                      </button>
+                    </div>
                     <div id="timetableContainer" class="pt-1">
                       <div class="card border-0 rounded">
                         <div
@@ -689,6 +701,78 @@
             </div>
           </div>
         </div>
+        <div
+          class="modal fade"
+          id="timetableShareModal"
+          tabindex="-1"
+          aria-labelledby="timetableShareModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header dashboard-header">
+                <h1 class="modal-title fs-5" id="timetableShareModalLabel">
+                  Timetable Share
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Timetable Share Link"
+                      aria-label="Timetable Share Link"
+                      aria-describedby="button-addon2"
+                      id="timetableShareInput"
+                      value="Generating..."
+                      disabled
+                    />
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      id="button-addon2"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="modal fade"
+          id="timetableShareViewModal"
+          tabindex="-1"
+          aria-labelledby="timetableShareViewModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header dashboard-header">
+                <h1 class="modal-title fs-5" id="timetableShareViewModalLabel">
+                  Timetable Share
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div id="timetableShareViewBody"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- SCRIPTS -->
@@ -705,6 +789,22 @@
       <script src="{{ url_for('static', filename='js/weather.js') }}"></script>
       <script src="{{ url_for('static', filename='js/basic.js') }}"></script>
       <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/timetableShare.js') }}"></script>
+      <script>
+        document
+          .getElementById("button-addon2")
+          .addEventListener("click", () => {
+            const input = document.getElementById("timetableShareInput");
+            navigator.clipboard
+              .writeText(input.value)
+              .then(() => {
+                console.log("Copied to clipboard:", input.value);
+              })
+              .catch((err) => {
+                console.error("Failed to copy:", err);
+              });
+          });
+      </script>
     </div>
   </body>
 </html>
