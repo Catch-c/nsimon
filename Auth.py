@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 import os
 from dotenv import load_dotenv
 
@@ -16,7 +17,7 @@ def getCookie(username, password):
     options.add_argument('--disable-gpu')
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    wait = WebDriverWait(driver, 10)  # Wait up to 10 seconds
+    wait = WebDriverWait(driver, 8)  # Wait up to 15 seconds
 
     try:
         driver.get(f"{os.getenv('SIMON_LINK', 'https://simon.sfx.vic.edu.au')}/Login/Default.aspx?ReturnUrl=%2F")
@@ -39,7 +40,10 @@ def getCookie(username, password):
 
         # Now wait for a post-login element to appear
         # (replace this with an element that only shows after login)
-        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "welcome-card-greetings")))
+        try:
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, "welcome-card-greetings")))
+        except TimeoutException:
+            return None
 
         # Once logged in, get cookies
         cookies = driver.get_cookies()
@@ -49,6 +53,9 @@ def getCookie(username, password):
 
         return None
 
+    except TimeoutException:
+        # Handle any other timeout exceptions
+        return None
     finally:
         driver.quit()
 
