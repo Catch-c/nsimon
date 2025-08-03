@@ -145,15 +145,9 @@
 
         <div class="offcanvas-body p-0 d-flex flex-column h-100">
           <!-- Profile Section -->
-          <!-- <div class="d-flex align-items-center px-4 mb-4">
-            <img
-              src="../assets/DisplayUserPhoto.png"
-              alt="Sebastian Cunningham"
-              class="profile-img rounded-circle border border-3 border-white border-opacity-25 me-3"
-              style="object-fit: cover; height: 75px; width: 75px"
-            />
+          <div class="d-flex align-items-center px-4 mb-4">
             <div>
-              <h5 class="fw-semibold mb-1">Sebastian Cunningham</h5>
+              <h5 class="fw-semibold mb-1" id="sidebarName">Loading</h5>
               <div class="d-flex gap-3">
                 <a
                   href="#"
@@ -162,12 +156,14 @@
                 >
                 <a
                   href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#settingsModal"
                   class="text-white text-opacity-75 text-decoration-none small"
                   >Settings</a
                 >
               </div>
             </div>
-          </div> -->
+          </div>
 
           <!-- Navigation Section -->
           <div class="px-1 flex-grow-1">
@@ -215,18 +211,28 @@
         <div
           class="dashboard-header rounded-top d-flex justify-content-between align-items-center"
         >
-          <h6>Student Dashboard</h6>
-          <i
-            class="bi bi-clouds-fill"
-            style="cursor: pointer; font-size: 1.2rem"
-            data-bs-toggle="modal"
-            data-bs-target="#weatherModal"
-          ></i>
+          <h6 id="dashboardHeaderText">Loading...</h6>
+          <div>
+            <i
+              class="bi bi-clouds-fill"
+              style="cursor: pointer; font-size: 1.2rem; margin-right: 5px"
+              data-bs-toggle="modal"
+              data-bs-target="#weatherModal"
+            ></i>
+            <i
+              class="bi bi-gear-fill"
+              style="cursor: pointer; font-size: 1.2rem"
+              data-bs-toggle="modal"
+              data-bs-target="#settingsModal"
+            ></i>
+          </div>
         </div>
         <div class="container-fluid w-full">
-          <div class="row ps-1 pe-1 mt-1">
-            <div class="col col-3 pt-1 px-1">
-              <div class="card border-1 shadow-sm">
+          <div class="row ps-1 pe-1 mt-1 mobile-stack">
+            <div
+              class="col col-3 pt-1 px-1 mobile-full-width mobile-order-3 mobile-separate-sections"
+            >
+              <div class="card border-1 shadow-sm mobile-no-height">
                 <div
                   class="section-header"
                   data-bs-toggle="collapse"
@@ -265,7 +271,7 @@
                       style="cursor: pointer"
                     >
                       <h6 class="card-title h6 m-0 fw-medium text-dark">
-                        <span id="test123123">0</span> Due
+                        <span id="test123123">...</span> Due
                       </h6>
                     </div>
 
@@ -276,20 +282,20 @@
                       style="cursor: pointer"
                     >
                       <h6 class="card-title h6 m-0 fw-medium text-dark">
-                        <span id="test123123123">0</span> Results
+                        <span id="test123123123">...</span> Results
                       </h6>
                     </div>
                     <div
                       class="card-body py-2 rounded shadow-sm m-0 mb-1 content-card"
                     >
                       <h6 class="card-title h6 m-0 fw-medium text-dark">
-                        <span id="test123123123123123">0</span> Overdue
+                        <span id="test123123123123123">...</span> Overdue
                       </h6>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="card border-1 shadow-sm mt-2">
+              <div class="card border-1 shadow-sm mt-2 mobile-no-height">
                 <div
                   class="section-header"
                   data-bs-toggle="collapse"
@@ -301,7 +307,7 @@
                     class="d-flex justify-content-between align-items-center"
                   >
                     <div class="d-flex align-items-center">
-                      <h6 class="section-title">WEATHER</h6>
+                      <h6 class="section-title">QUICK LINKS</h6>
                     </div>
                     <button
                       class="btn btn-sm p-0 text-muted border-0 bg-transparent collapse-toggle"
@@ -327,8 +333,8 @@
               </div>
             </div>
 
-            <div class="col col-6 pt-1 px-1">
-              <div class="card border-1 shadow-sm">
+            <div class="col col-6 pt-1 px-1 mobile-full-width mobile-order-2">
+              <div class="card border-1 shadow-sm mobile-no-height">
                 <div
                   class="section-header"
                   data-bs-toggle="collapse"
@@ -363,14 +369,37 @@
                     <div
                       id="dailyMessageHolder"
                       style="height: 100%; overflow-y: auto"
-                    ></div>
+                    >
+                      <div class="card border-0 rounded">
+                        <div
+                          class="card-body py-2 px-2 d-flex justify-content-between align-items-center border-0 rounded"
+                          style="background-color: rgb(205, 205, 205)"
+                        >
+                          <div class="d-flex align-items-center">
+                            <p
+                              class="card-text mb-0 text-muted fw-semibold"
+                              style="font-size: 0.8rem; line-height: 1.1"
+                            >
+                              Loading...
+                            </p>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span
+                              class="text-muted fw-medium"
+                              style="font-size: 0.8rem; line-height: 1.1"
+                            >
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="col col-3 pt-1 px-1">
-              <div class="card border-1 shadow-sm">
+            <div class="col col-3 pt-1 px-1 mobile-full-width mobile-order-1">
+              <div class="card border-1 shadow-sm mobile-no-height">
                 <div
                   class="section-header"
                   data-bs-toggle="collapse"
@@ -408,93 +437,6 @@
                       type="date"
                     />
                     <div id="timetableContainer" class="pt-1">
-                      <!-- Past Period -->
-                      <div class="card border-0 rounded">
-                        <div
-                          class="card-body py-2 px-2 d-flex justify-content-between align-items-center rounded"
-                        >
-                          <div class="d-flex flex-column">
-                            <h6
-                              class="card-title h6 mb-0 fw-medium timetable-past"
-                              style="font-size: 0.7rem; line-height: 1.5"
-                            >
-                              Period Description
-                            </h6>
-                            <p
-                              class="card-text mb-0 timetable-past-secondary"
-                              style="font-size: 0.9rem; line-height: 1.1"
-                            >
-                              11RRECF2I @ FLA12
-                            </p>
-                          </div>
-                          <div class="text-end">
-                            <span
-                              class="timetable-past-secondary fw-medium"
-                              style="font-size: 0.8rem; line-height: 1.1"
-                              >9:00 AM - 10:00 AM</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Current Period -->
-                      <div
-                        class="card border-2 border-primary shadow-sm rounded"
-                      >
-                        <div
-                          class="card-body py-2 px-2 d-flex justify-content-between align-items-center border-start border-secondary border-3 rounded"
-                        >
-                          <div class="d-flex flex-column">
-                            <h6
-                              class="card-title h6 mb-0 fw-medium text-dark"
-                              style="font-size: 0.7rem; line-height: 1.5"
-                            >
-                              Period Description
-                            </h6>
-                            <p
-                              class="card-text mb-0 text-muted"
-                              style="font-size: 0.9rem; line-height: 1.1"
-                            >
-                              11RRECF2I @ FLA12
-                            </p>
-                          </div>
-                          <div class="text-end">
-                            <span
-                              class="text-muted fw-medium"
-                              style="font-size: 0.8rem; line-height: 1.1"
-                              >9:00 AM - 10:00 AM</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Future Period -->
-                      <div class="card border-0 rounded">
-                        <div
-                          class="card-body py-2 px-2 d-flex justify-content-between align-items-center border-0 rounded"
-                        >
-                          <div class="d-flex flex-column">
-                            <h6
-                              class="card-title h6 mb-0 fw-medium text-dark"
-                              style="font-size: 0.7rem; line-height: 1.5"
-                            >
-                              Period Description
-                            </h6>
-                            <p
-                              class="card-text mb-0 text-muted"
-                              style="font-size: 0.9rem; line-height: 1.1"
-                            >
-                              11RRECF2I @ FLA12
-                            </p>
-                          </div>
-                          <div class="text-end">
-                            <span
-                              class="text-muted fw-medium"
-                              style="font-size: 0.8rem; line-height: 1.1"
-                              >9:00 AM - 10:00 AM</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Non Teaching Period -->
                       <div class="card border-0 rounded">
                         <div
                           class="card-body py-2 px-2 d-flex justify-content-between align-items-center border-0 rounded"
@@ -505,15 +447,15 @@
                               class="card-text mb-0 text-muted fw-semibold"
                               style="font-size: 0.8rem; line-height: 1.1"
                             >
-                              LUNCH DUTY
+                              Loading...
                             </p>
                           </div>
                           <div class="d-flex align-items-center">
                             <span
                               class="text-muted fw-medium"
                               style="font-size: 0.8rem; line-height: 1.1"
-                              >9:00 AM - 10:00 AM</span
                             >
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -606,16 +548,16 @@
                     class="temperature text-primary mb-1"
                     id="currentWeatherTemp"
                   >
-                    22°C
+                    Loading...°C
                   </div>
                   <div
                     class="condition-text mb-2"
                     id="currentWeatherConditions"
                   >
-                    Sunny
+                    Loading...
                   </div>
                   <div class="text-muted">
-                    <small id="currentFeelsLike">Feels like 24°C</small>
+                    <small id="currentFeelsLike">Feels like Loading...°C</small>
                   </div>
                 </div>
                 <div class="row mb-4">
@@ -624,7 +566,7 @@
                       <div class="detail-label">Min Temp</div>
                       <div class="detail-value text-info">
                         <i class="bi bi-thermometer-low"></i>
-                        <span id="todayMinTemp">18°C</span>
+                        <span id="todayMinTemp">Loading...°C</span>
                       </div>
                     </div>
                   </div>
@@ -633,7 +575,7 @@
                       <div class="detail-label">Max Temp</div>
                       <div class="detail-value text-danger">
                         <i class="bi bi-thermometer-high"></i>
-                        <span id="todayMaxTemp">26°C</span>
+                        <span id="todayMaxTemp">Loading...°C</span>
                       </div>
                     </div>
                   </div>
@@ -644,7 +586,7 @@
                       <div class="detail-label">UV Index</div>
                       <div class="detail-value text-warning">
                         <i class="bi bi-brightness-high"></i>
-                        <span id="todayUVIndex">6</span>
+                        <span id="todayUVIndex">Loading...</span>
                       </div>
                     </div>
                   </div>
@@ -654,7 +596,7 @@
                       <div class="detail-value text-success">
                         <i class="bi bi-sunrise"></i>
 
-                        <span id="todaySunrise">6:42 AM</span>
+                        <span id="todaySunrise">Loading...</span>
                       </div>
                     </div>
                   </div>
@@ -664,8 +606,81 @@
                       <div class="detail-value text-primary">
                         <i class="bi bi-sunset"></i>
 
-                        <span id="todaySunset">6:42 PM</span>
+                        <span id="todaySunset">Loading...</span>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="modal fade"
+          id="settingsModal"
+          tabindex="-1"
+          aria-labelledby="settingsModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header dashboard-header">
+                <h1 class="modal-title fs-5" id="settingsModalLabel">
+                  Settings
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <h1 class="modal-title fs-5">Daily Messages</h1>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <label class="form-check-label mb-0" for="musicSwitch">
+                      Show MUSIC/DRAMA/PRODUCTION Messages
+                    </label>
+                    <div class="form-check form-switch m-0">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="musicSwitch"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <label class="form-check-label mb-0" for="canteenSwitch">
+                      Show CANTEEN Messages
+                    </label>
+                    <div class="form-check form-switch m-0">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="canteenSwitch"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <label class="form-check-label mb-0" for="sportSwitch">
+                      Show SPORT Messages
+                    </label>
+                    <div class="form-check form-switch m-0">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="sportSwitch"
+                      />
                     </div>
                   </div>
                 </div>
@@ -687,6 +702,8 @@
       <script src="{{ url_for('static', filename='js/classResources.js') }}"></script>
       <script src="{{ url_for('static', filename='js/quickLinks.js') }}"></script>
       <script src="{{ url_for('static', filename='js/weather.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/basic.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
     </div>
   </body>
 </html>

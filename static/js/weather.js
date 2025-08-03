@@ -1,4 +1,4 @@
-function convertTo12Hour(datetimeString) {
+function convertTo12HourWeather(datetimeString) {
   const date = new Date(datetimeString);
   let hours = date.getHours();
   const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -19,7 +19,6 @@ function fetchWeather() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       document.getElementById("currentWeatherConditions").innerText =
         data.currentDescription;
 
@@ -35,13 +34,13 @@ function fetchWeather() {
       document.getElementById("todayMinTemp").innerText = `${data.todayMin}°C`;
       document.getElementById("todayMaxTemp").innerText = `${data.todayMax}°C`;
       document.getElementById("todayUVIndex").innerText = `${data.todayUV}`;
-      document.getElementById("todaySunrise").innerText = `${convertTo12Hour(
-        data.todaySunrise
-      )}`;
+      document.getElementById(
+        "todaySunrise"
+      ).innerText = `${convertTo12HourWeather(data.todaySunrise)}`;
 
-      document.getElementById("todaySunset").innerText = `${convertTo12Hour(
-        data.todaySunset
-      )}`;
+      document.getElementById(
+        "todaySunset"
+      ).innerText = `${convertTo12HourWeather(data.todaySunset)}`;
     })
     .catch((error) => console.error("Error fetching weather:", error));
 }

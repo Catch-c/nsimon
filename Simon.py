@@ -40,3 +40,12 @@ def getClassResources(cookie):
     response = requests.post(url, headers=headers, json=data)
 
     return response.json()
+
+
+def getUserInformation(cookie):
+    url = "https://simon.sfx.vic.edu.au/WebServices/Default.asmx/UserInformation"
+    headers = {"Content-Type": "application/json", "Cookie": f"adAuthCookie={cookie}"}
+
+    response = requests.post(url, headers=headers)
+
+    return response.json()

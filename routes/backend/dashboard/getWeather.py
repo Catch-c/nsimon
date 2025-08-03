@@ -25,7 +25,6 @@ def getWeather():
     requestURL = f"https://api.open-meteo.com/v1/forecast?latitude=-38.05169&longitude=145.37329&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&current=temperature_2m,apparent_temperature,weather_code&timezone=Australia%2FSydney&forecast_days=1"
     response = requests.get(requestURL)
     data = response.json()
-    print(data)
 
     if response.status_code == 200:
         currentTemperature = data["current"]["temperature_2m"]

@@ -1,13 +1,12 @@
-function createPastTimetableCard(periodName, details, timeRange) {
+function createPastTimetableCard(periodName, details, timeRange, teacherName) {
   const card = document.createElement("div");
   card.className = "card border-0 rounded";
 
   const cardBody = document.createElement("div");
-  cardBody.className =
-    "card-body py-2 px-2 d-flex justify-content-between align-items-center rounded";
+  cardBody.className = "card-body py-2 px-2 d-flex flex-column rounded";
 
-  const leftSection = document.createElement("div");
-  leftSection.className = "d-flex flex-column";
+  const topRow = document.createElement("div");
+  topRow.className = "d-flex justify-content-between align-items-center";
 
   const title = document.createElement("h6");
   title.className = "card-title h6 mb-0 fw-medium timetable-past";
@@ -15,43 +14,47 @@ function createPastTimetableCard(periodName, details, timeRange) {
   title.style.lineHeight = "1.5";
   title.textContent = periodName;
 
-  const subtitle = document.createElement("p");
-  subtitle.className = "card-text mb-0 timetable-past-secondary";
-  subtitle.style.fontSize = "0.9rem";
-  subtitle.style.lineHeight = "1.1";
-  subtitle.textContent = details;
-
-  leftSection.appendChild(title);
-  leftSection.appendChild(subtitle);
-
-  const rightSection = document.createElement("div");
-  rightSection.className = "text-end";
-
   const time = document.createElement("span");
   time.className = "timetable-past-secondary fw-medium";
   time.style.fontSize = "0.8rem";
   time.style.lineHeight = "1.1";
   time.textContent = timeRange;
 
-  rightSection.appendChild(time);
+  topRow.appendChild(title);
+  topRow.appendChild(time);
 
-  cardBody.appendChild(leftSection);
-  cardBody.appendChild(rightSection);
+  const subtitle = document.createElement("p");
+  subtitle.className = "card-text mb-0 timetable-past-secondary";
+  subtitle.style.fontSize = "0.9rem";
+  subtitle.style.lineHeight = "1.1";
+  subtitle.textContent = details;
+  if (teacherName) {
+    subtitle.setAttribute("data-bs-toggle", "tooltip");
+    subtitle.setAttribute("data-bs-placement", "top");
+    subtitle.setAttribute("title", teacherName);
+  }
+  cardBody.appendChild(topRow);
+  cardBody.appendChild(subtitle);
   card.appendChild(cardBody);
 
   return card;
 }
 
-function createCurrentTimetableCard(periodName, details, timeRange) {
+function createCurrentTimetableCard(
+  periodName,
+  details,
+  timeRange,
+  teacherName
+) {
   const card = document.createElement("div");
   card.className = "card border-2 border-primary shadow-sm rounded";
 
   const cardBody = document.createElement("div");
   cardBody.className =
-    "card-body py-2 px-2 d-flex justify-content-between align-items-center border-start border-secondary border-3 rounded";
+    "card-body py-2 px-2 d-flex flex-column border-start border-secondary border-3 rounded";
 
-  const leftSection = document.createElement("div");
-  leftSection.className = "d-flex flex-column";
+  const topRow = document.createElement("div");
+  topRow.className = "d-flex justify-content-between align-items-center";
 
   const title = document.createElement("h6");
   title.className = "card-title h6 mb-0 fw-medium text-dark";
@@ -59,43 +62,48 @@ function createCurrentTimetableCard(periodName, details, timeRange) {
   title.style.lineHeight = "1.5";
   title.textContent = periodName;
 
-  const subtitle = document.createElement("p");
-  subtitle.className = "card-text mb-0 text-muted";
-  subtitle.style.fontSize = "0.9rem";
-  subtitle.style.lineHeight = "1.1";
-  subtitle.textContent = details;
-
-  leftSection.appendChild(title);
-  leftSection.appendChild(subtitle);
-
-  const rightSection = document.createElement("div");
-  rightSection.className = "text-end";
-
   const time = document.createElement("span");
   time.className = "text-muted fw-medium";
   time.style.fontSize = "0.8rem";
   time.style.lineHeight = "1.1";
   time.textContent = timeRange;
 
-  rightSection.appendChild(time);
+  topRow.appendChild(title);
+  topRow.appendChild(time);
 
-  cardBody.appendChild(leftSection);
-  cardBody.appendChild(rightSection);
+  const subtitle = document.createElement("p");
+  subtitle.className = "card-text mb-0 text-muted";
+  subtitle.style.fontSize = "0.9rem";
+  subtitle.style.lineHeight = "1.1";
+  subtitle.textContent = details;
+  if (teacherName) {
+    subtitle.setAttribute("data-bs-toggle", "tooltip");
+    subtitle.setAttribute("data-bs-placement", "top");
+    subtitle.setAttribute("title", teacherName);
+  }
+
+  cardBody.appendChild(topRow);
+  cardBody.appendChild(subtitle);
   card.appendChild(cardBody);
 
   return card;
 }
 
-function createFutureTimetableCard(periodName, details, timeRange) {
+function createFutureTimetableCard(
+  periodName,
+  details,
+  timeRange,
+  teacherName
+) {
   const card = document.createElement("div");
   card.className = "card border-0 rounded";
 
   const cardBody = document.createElement("div");
   cardBody.className =
-    "card-body py-2 px-2 d-flex justify-content-between align-items-center border-0 rounded";
+    "card-body py-2 px-2 d-flex flex-column border-0 rounded";
 
-  const leftSection = document.createElement("div");
-  leftSection.className = "d-flex flex-column";
+  const topRow = document.createElement("div");
+  topRow.className = "d-flex justify-content-between align-items-center";
 
   const title = document.createElement("h6");
   title.className = "card-title h6 mb-0 fw-medium text-dark";
@@ -103,28 +111,28 @@ function createFutureTimetableCard(periodName, details, timeRange) {
   title.style.lineHeight = "1.5";
   title.textContent = periodName;
 
-  const subtitle = document.createElement("p");
-  subtitle.className = "card-text mb-0 text-muted";
-  subtitle.style.fontSize = "0.9rem";
-  subtitle.style.lineHeight = "1.1";
-  subtitle.textContent = details;
-
-  leftSection.appendChild(title);
-  leftSection.appendChild(subtitle);
-
-  const rightSection = document.createElement("div");
-  rightSection.className = "text-end";
-
   const time = document.createElement("span");
   time.className = "text-muted fw-medium";
   time.style.fontSize = "0.8rem";
   time.style.lineHeight = "1.1";
   time.textContent = timeRange;
 
-  rightSection.appendChild(time);
+  topRow.appendChild(title);
+  topRow.appendChild(time);
 
-  cardBody.appendChild(leftSection);
-  cardBody.appendChild(rightSection);
+  const subtitle = document.createElement("p");
+  subtitle.className = "card-text mb-0 text-muted";
+  subtitle.style.fontSize = "0.9rem";
+  subtitle.style.lineHeight = "1.1";
+  subtitle.textContent = details;
+  if (teacherName) {
+    subtitle.setAttribute("data-bs-toggle", "tooltip");
+    subtitle.setAttribute("data-bs-placement", "top");
+    subtitle.setAttribute("title", teacherName);
+  }
+
+  cardBody.appendChild(topRow);
+  cardBody.appendChild(subtitle);
   card.appendChild(cardBody);
 
   return card;
@@ -220,8 +228,6 @@ function compareDateWithToday(dateString) {
 function fetchTimetable(date) {
   let timetableContainer = document.getElementById("timetableContainer");
 
-  timetableContainer.innerHTML = "";
-
   const dateStatus = compareDateWithToday(date);
 
   const requestDate = `${date}T04:39:50.000Z`;
@@ -236,81 +242,97 @@ function fetchTimetable(date) {
   })
     .then((response) => response.json())
     .then((data) => {
+      timetableContainer.innerHTML = "";
       const timetableData = data["d"];
-      for (const period of data["d"]["Periods"]) {
-        const isNowResult = isNow(period.StartTime, period.EndTime);
+      if (data["d"]["Periods"].length === 0) {
+        let newTimetableItem = createNonTeachingTimetableCard(
+          "Weekend (No Classes)",
+          ``
+        );
+        timetableContainer.appendChild(newTimetableItem);
+      } else {
+        for (const period of data["d"]["Periods"]) {
+          const isNowResult = isNow(period.StartTime, period.EndTime);
 
-        if (period.IsTeachingPeriod) {
-          if (dateStatus === 0) {
-            const isNowResult = isNow(period.StartTime, period.EndTime);
-            if (isNowResult === 1) {
-              let newTimetableItem = createFutureTimetableCard(
+          if (period.IsTeachingPeriod) {
+            if (dateStatus === 0) {
+              const isNowResult = isNow(period.StartTime, period.EndTime);
+              if (isNowResult === 1) {
+                let newTimetableItem = createFutureTimetableCard(
+                  period.Description,
+                  `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
+                  `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+                    period.EndTime
+                  )}`,
+                  period.Classes[0].TeacherName
+                );
+                timetableContainer.appendChild(newTimetableItem);
+              } else if (isNowResult === 2) {
+                let newTimetableItem = createCurrentTimetableCard(
+                  period.Description,
+                  `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
+                  `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+                    period.EndTime
+                  )}`,
+                  period.Classes[0].TeacherName
+                );
+                timetableContainer.appendChild(newTimetableItem);
+              } else {
+                let newTimetableItem = createPastTimetableCard(
+                  period.Description,
+                  `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
+                  `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
+                    period.EndTime
+                  )}`,
+                  period.Classes[0].TeacherName
+                );
+                timetableContainer.appendChild(newTimetableItem);
+              }
+            } else if (dateStatus === -1) {
+              let newTimetableItem = createPastTimetableCard(
                 period.Description,
-                `${period.Classes[0].TimeTableClass}`,
+                `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
                 `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                   period.EndTime
-                )}`
-              );
-              timetableContainer.appendChild(newTimetableItem);
-            } else if (isNowResult === 2) {
-              let newTimetableItem = createCurrentTimetableCard(
-                period.Description,
-                `${period.Classes[0].TimeTableClass}`,
-                `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
-                  period.EndTime
-                )}`
+                )}`,
+                period.Classes[0].TeacherName
               );
               timetableContainer.appendChild(newTimetableItem);
             } else {
-              let newTimetableItem = createPastTimetableCard(
+              let newTimetableItem = createFutureTimetableCard(
                 period.Description,
-                `${period.Classes[0].TimeTableClass}`,
+                `${period.Classes[0].TimeTableClass} @ ${period.Classes[0].Room}`,
                 `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                   period.EndTime
-                )}`
+                )}`,
+                period.Classes[0].TeacherName
               );
               timetableContainer.appendChild(newTimetableItem);
             }
-          } else if (dateStatus === -1) {
-            let newTimetableItem = createPastTimetableCard(
-              period.Description,
-              `${period.Classes[0].TimeTableClass}`,
-              `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
-                period.EndTime
-              )}`
-            );
-            timetableContainer.appendChild(newTimetableItem);
           } else {
-            let newTimetableItem = createFutureTimetableCard(
+            let newTimetableItem = createNonTeachingTimetableCard(
               period.Description,
-              `${period.Classes[0].TimeTableClass}`,
               `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                 period.EndTime
               )}`
             );
             timetableContainer.appendChild(newTimetableItem);
           }
-        } else {
-          let newTimetableItem = createNonTeachingTimetableCard(
-            period.Description,
-            `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
-              period.EndTime
-            )}`
-          );
-          timetableContainer.appendChild(newTimetableItem);
         }
       }
+
+      const tooltipTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="tooltip"]'
+      );
+      const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+      );
     })
     .catch((error) => console.error("Error fetching timetable:", error));
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   let timetableDate = document.getElementById("timetableDate");
-
-  if (!timetableDate.value) {
-    const today = new Date().toISOString().split("T")[0];
-    timetableDate.value = today;
-  }
 
   fetchTimetable(timetableDate.value);
 

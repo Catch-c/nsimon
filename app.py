@@ -45,6 +45,9 @@ app.register_blueprint(getClassesBlueprint)
 from routes.backend.dashboard.getWeather import getWeatherBlueprint
 app.register_blueprint(getWeatherBlueprint)
 
+from routes.backend.dashboard.getUserInformation import getUserInformationBlueprint
+app.register_blueprint(getUserInformationBlueprint)
+
 
 
 # --[[ Get Version API ]]--

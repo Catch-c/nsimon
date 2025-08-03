@@ -23,7 +23,6 @@ function removeColorStyles(htmlString) {
 
 function fetchDailyMessages(date) {
   let dailyMessageContainer = document.getElementById("dailyMessageHolder");
-  dailyMessageContainer.innerHTML = "";
 
   fetch("/api/getDailyMessages", {
     method: "POST",
@@ -36,9 +35,25 @@ function fetchDailyMessages(date) {
   })
     .then((response) => response.json())
     .then((data) => {
+      dailyMessageContainer.innerHTML = "";
       const dailyMessagesData = data["d"]["SchoolMessages"];
 
       for (const message of dailyMessagesData) {
+        if (localStorage.getItem("musicSwitch") === "false") {
+          if (message.SchoolMessageCategoryTitle === "MUSIC/PRODUCTION/DRAMA") {
+            continue;
+          }
+        }
+        if (localStorage.getItem("canteenSwitch") === "false") {
+          if (message.SchoolMessageCategoryTitle === "CANTEEN") {
+            continue;
+          }
+        }
+        if (localStorage.getItem("sportSwitch") === "false") {
+          if (message.SchoolMessageCategoryTitle === "SPORT") {
+            continue;
+          }
+        }
         const card = document.createElement("div");
         card.className =
           "card border-2 border-0 mx-0 rounded content-card-secondary shadow-sm mb-2";
