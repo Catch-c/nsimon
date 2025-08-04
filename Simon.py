@@ -55,3 +55,23 @@ def getUserInformation(cookie):
     response = requests.post(url, headers=headers)
 
     return response.json()
+
+def getClassLessonPlans(cookie, classID):
+    url = f"{SIMON_LINK}/WebModules/LearningAreas/LearningAreas.asmx/GetAllStudentClassLessonPlans"
+    headers = {"Content-Type": "application/json", "Cookie": f"adAuthCookie={cookie}"}
+
+    data = {"classID": classID, "inactiveClassFlag": False}
+
+    response = requests.post(url, headers=headers, json=data)
+
+    return response.json()
+
+def getLessonPlan(cookie, classID, lessonID):
+    url = f"{SIMON_LINK}/WebModules/LearningAreas/LearningAreas.asmx/GetLessonPlanDetailsForStudent"
+    headers = {"Content-Type": "application/json", "Cookie": f"adAuthCookie={cookie}"}
+
+    data = {"classLessonId": lessonID, "subjectClassID": classID}
+
+    response = requests.post(url, headers=headers, json=data)
+
+    return response.json()

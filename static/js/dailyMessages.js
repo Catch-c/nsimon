@@ -21,6 +21,21 @@ function removeColorStyles(htmlString) {
   return doc.body.innerHTML;
 }
 
+function isNew(timestamp) {
+  const match = timestamp.match(/\/Date\((\d+)\)\//);
+  if (!match) return false;
+
+  const timestampMs = parseInt(match[1], 10);
+  const inputDate = new Date(timestampMs);
+  const today = new Date();
+
+  return (
+    inputDate.getFullYear() === today.getFullYear() &&
+    inputDate.getMonth() === today.getMonth() &&
+    inputDate.getDate() === today.getDate()
+  );
+}
+
 function fetchDailyMessages(date) {
   let dailyMessageContainer = document.getElementById("dailyMessageHolder");
 
@@ -38,6 +53,9 @@ function fetchDailyMessages(date) {
       dailyMessageContainer.innerHTML = "";
       const dailyMessagesData = data["d"]["SchoolMessages"];
 
+      let totalMessages = 0;
+      let totalNewMessages = 0;
+
       for (const message of dailyMessagesData) {
         if (localStorage.getItem("musicSwitch") === "false") {
           if (message.SchoolMessageCategoryTitle === "MUSIC/PRODUCTION/DRAMA") {
@@ -54,6 +72,8 @@ function fetchDailyMessages(date) {
             continue;
           }
         }
+
+        totalMessages++;
         const card = document.createElement("div");
         card.className =
           "card border-2 border-0 mx-0 rounded content-card-secondary shadow-sm mb-2";
@@ -71,6 +91,14 @@ function fetchDailyMessages(date) {
         categoryBadge.textContent = message.SchoolMessageCategoryTitle;
         title.appendChild(categoryBadge);
 
+        if (isNew(message.StartDateTime)) {
+          const newBadge = document.createElement("span");
+          newBadge.className = "badge text-bg-danger ms-2";
+          newBadge.textContent = "NEW";
+          title.appendChild(newBadge);
+          totalNewMessages++;
+        }
+
         const content = document.createElement("p");
         content.className = "card-text small text-muted mb-0";
         content.innerHTML = removeColorStyles(message.MessageContent);
@@ -81,6 +109,12 @@ function fetchDailyMessages(date) {
 
         dailyMessageContainer.appendChild(card);
       }
+      document.getElementById(
+        "dailyMessagesCount"
+      ).innerText = `${totalMessages} MESSAGES`;
+      document.getElementById(
+        "dailyMessagesCountNew"
+      ).innerText = `${totalNewMessages} NEW`;
     })
     .catch((error) => console.error("Error fetching daily messages:", error));
 }

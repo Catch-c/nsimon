@@ -1,6 +1,13 @@
 let currentTimetablePeriods = null;
 let currentDate = null;
-function createPastTimetableCard(periodName, details, timeRange, teacherName) {
+function createPastTimetableCard(
+  periodName,
+  details,
+  timeRange,
+  teacherName,
+  classID,
+  lessonPlan
+) {
   const card = document.createElement("div");
   card.className = "card border-0 rounded";
 
@@ -25,6 +32,9 @@ function createPastTimetableCard(periodName, details, timeRange, teacherName) {
   topRow.appendChild(title);
   topRow.appendChild(time);
 
+  const bottomRow = document.createElement("div");
+  bottomRow.className = "d-flex justify-content-between align-items-center";
+
   const subtitle = document.createElement("p");
   subtitle.className = "card-text mb-0 timetable-past-secondary";
   subtitle.style.fontSize = "0.9rem";
@@ -35,8 +45,29 @@ function createPastTimetableCard(periodName, details, timeRange, teacherName) {
     subtitle.setAttribute("data-bs-placement", "top");
     subtitle.setAttribute("title", teacherName);
   }
+  bottomRow.appendChild(subtitle);
+
+  if (lessonPlan) {
+    const button = document.createElement("button");
+    button.className = "btn p-0 border-0";
+    button.style.width = "25px";
+    button.style.height = "25px";
+    button.style.backgroundColor = "purple";
+    button.style.borderRadius = "50%";
+    button.style.display = "flex";
+    button.style.alignItems = "center";
+    button.style.justifyContent = "center";
+    button.title = "View Lesson Plan";
+    button.onclick = () => showLessonPlan(classID);
+    const icon = document.createElement("i");
+    icon.className = "bi bi-journal-text text-white";
+    icon.style.fontSize = "0.7rem";
+    button.appendChild(icon);
+    bottomRow.appendChild(button);
+  }
+
   cardBody.appendChild(topRow);
-  cardBody.appendChild(subtitle);
+  cardBody.appendChild(bottomRow);
   card.appendChild(cardBody);
 
   return card;
@@ -46,7 +77,9 @@ function createCurrentTimetableCard(
   periodName,
   details,
   timeRange,
-  teacherName
+  teacherName,
+  classID,
+  lessonPlan
 ) {
   const card = document.createElement("div");
   card.className = "card border-2 border-primary shadow-sm rounded";
@@ -73,8 +106,11 @@ function createCurrentTimetableCard(
   topRow.appendChild(title);
   topRow.appendChild(time);
 
+  const bottomRow = document.createElement("div");
+  bottomRow.className = "d-flex justify-content-between align-items-center";
+
   const subtitle = document.createElement("p");
-  subtitle.className = "card-text mb-0 text-muted";
+  subtitle.className = "card-text mb-0 text-dark";
   subtitle.style.fontSize = "0.9rem";
   subtitle.style.lineHeight = "1.1";
   subtitle.textContent = details;
@@ -83,9 +119,29 @@ function createCurrentTimetableCard(
     subtitle.setAttribute("data-bs-placement", "top");
     subtitle.setAttribute("title", teacherName);
   }
+  bottomRow.appendChild(subtitle);
+
+  if (lessonPlan) {
+    const button = document.createElement("button");
+    button.className = "btn p-0 border-0";
+    button.style.width = "25px";
+    button.style.height = "25px";
+    button.style.backgroundColor = "purple";
+    button.style.borderRadius = "50%";
+    button.style.display = "flex";
+    button.style.alignItems = "center";
+    button.style.justifyContent = "center";
+    button.title = "View Lesson Plan";
+    button.onclick = () => showLessonPlan(classID);
+    const icon = document.createElement("i");
+    icon.className = "bi bi-journal-text text-white";
+    icon.style.fontSize = "0.7rem";
+    button.appendChild(icon);
+    bottomRow.appendChild(button);
+  }
 
   cardBody.appendChild(topRow);
-  cardBody.appendChild(subtitle);
+  cardBody.appendChild(bottomRow);
   card.appendChild(cardBody);
 
   return card;
@@ -95,7 +151,9 @@ function createFutureTimetableCard(
   periodName,
   details,
   timeRange,
-  teacherName
+  teacherName,
+  classID,
+  lessonPlan
 ) {
   const card = document.createElement("div");
   card.className = "card border-0 rounded";
@@ -122,8 +180,11 @@ function createFutureTimetableCard(
   topRow.appendChild(title);
   topRow.appendChild(time);
 
+  const bottomRow = document.createElement("div");
+  bottomRow.className = "d-flex justify-content-between align-items-center";
+
   const subtitle = document.createElement("p");
-  subtitle.className = "card-text mb-0 text-muted";
+  subtitle.className = "card-text mb-0 text-dark";
   subtitle.style.fontSize = "0.9rem";
   subtitle.style.lineHeight = "1.1";
   subtitle.textContent = details;
@@ -132,9 +193,29 @@ function createFutureTimetableCard(
     subtitle.setAttribute("data-bs-placement", "top");
     subtitle.setAttribute("title", teacherName);
   }
+  bottomRow.appendChild(subtitle);
+
+  if (lessonPlan) {
+    const button = document.createElement("button");
+    button.className = "btn p-0 border-0";
+    button.style.width = "25px";
+    button.style.height = "25px";
+    button.style.backgroundColor = "purple";
+    button.style.borderRadius = "50%";
+    button.style.display = "flex";
+    button.style.alignItems = "center";
+    button.style.justifyContent = "center";
+    button.title = "View Lesson Plan";
+    button.onclick = () => showLessonPlan(classID);
+    const icon = document.createElement("i");
+    icon.className = "bi bi-journal-text text-white";
+    icon.style.fontSize = "0.7rem";
+    button.appendChild(icon);
+    bottomRow.appendChild(button);
+  }
 
   cardBody.appendChild(topRow);
-  cardBody.appendChild(subtitle);
+  cardBody.appendChild(bottomRow);
   card.appendChild(cardBody);
 
   return card;
@@ -268,7 +349,9 @@ function fetchTimetable(date) {
                   `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                     period.EndTime
                   )}`,
-                  period.Classes[0].TeacherName
+                  period.Classes[0].TeacherName,
+                  period.Classes[0].ClassID,
+                  period.Classes[0].HasActiveLessonPlan
                 );
                 timetableContainer.appendChild(newTimetableItem);
               } else if (isNowResult === 2) {
@@ -278,7 +361,9 @@ function fetchTimetable(date) {
                   `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                     period.EndTime
                   )}`,
-                  period.Classes[0].TeacherName
+                  period.Classes[0].TeacherName,
+                  period.Classes[0].ClassID,
+                  period.Classes[0].HasActiveLessonPlan
                 );
                 timetableContainer.appendChild(newTimetableItem);
               } else {
@@ -288,7 +373,9 @@ function fetchTimetable(date) {
                   `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                     period.EndTime
                   )}`,
-                  period.Classes[0].TeacherName
+                  period.Classes[0].TeacherName,
+                  period.Classes[0].ClassID,
+                  period.Classes[0].HasActiveLessonPlan
                 );
                 timetableContainer.appendChild(newTimetableItem);
               }
@@ -299,7 +386,9 @@ function fetchTimetable(date) {
                 `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                   period.EndTime
                 )}`,
-                period.Classes[0].TeacherName
+                period.Classes[0].TeacherName,
+                period.Classes[0].ClassID,
+                period.Classes[0].HasActiveLessonPlan
               );
               timetableContainer.appendChild(newTimetableItem);
             } else {
@@ -309,7 +398,9 @@ function fetchTimetable(date) {
                 `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                   period.EndTime
                 )}`,
-                period.Classes[0].TeacherName
+                period.Classes[0].TeacherName,
+                period.Classes[0].ClassID,
+                period.Classes[0].HasActiveLessonPlan
               );
               timetableContainer.appendChild(newTimetableItem);
             }
@@ -375,7 +466,9 @@ function fetchTimetableNextDay(date) {
                 `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                   period.EndTime
                 )}`,
-                period.Classes[0].TeacherName
+                period.Classes[0].TeacherName,
+                period.Classes[0].ClassID,
+                period.Classes[0].HasActiveLessonPlan
               );
               timetableContainer.appendChild(newTimetableItem);
             } else if (isNowResult === 2) {
@@ -385,7 +478,9 @@ function fetchTimetableNextDay(date) {
                 `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                   period.EndTime
                 )}`,
-                period.Classes[0].TeacherName
+                period.Classes[0].TeacherName,
+                period.Classes[0].ClassID,
+                period.Classes[0].HasActiveLessonPlan
               );
               timetableContainer.appendChild(newTimetableItem);
             } else {
@@ -395,7 +490,9 @@ function fetchTimetableNextDay(date) {
                 `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                   period.EndTime
                 )}`,
-                period.Classes[0].TeacherName
+                period.Classes[0].TeacherName,
+                period.Classes[0].ClassID,
+                period.Classes[0].HasActiveLessonPlan
               );
               timetableContainer.appendChild(newTimetableItem);
             }
@@ -406,7 +503,9 @@ function fetchTimetableNextDay(date) {
               `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                 period.EndTime
               )}`,
-              period.Classes[0].TeacherName
+              period.Classes[0].TeacherName,
+              period.Classes[0].ClassID,
+              period.Classes[0].HasActiveLessonPlan
             );
             timetableContainer.appendChild(newTimetableItem);
           } else {
@@ -416,7 +515,9 @@ function fetchTimetableNextDay(date) {
               `${convertTo12Hour(period.StartTime)} - ${convertTo12Hour(
                 period.EndTime
               )}`,
-              period.Classes[0].TeacherName
+              period.Classes[0].TeacherName,
+              period.Classes[0].ClassID,
+              period.Classes[0].HasActiveLessonPlan
             );
             timetableContainer.appendChild(newTimetableItem);
           }
@@ -481,6 +582,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   handleFetchTimetable(timetableDate.value);
+
+  setInterval(() => {
+    handleFetchTimetable(timetableDate.value);
+  }, 30000);
 
   timetableDate.addEventListener("change", () => {
     handleFetchTimetable(timetableDate.value);

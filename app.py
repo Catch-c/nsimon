@@ -54,6 +54,12 @@ app.register_blueprint(createTimetableShareBlueprint)
 from routes.backend.dashboard.getTimetableShare import getTimetableShareBlueprint
 app.register_blueprint(getTimetableShareBlueprint)
 
+from routes.backend.dashboard.getClassLessonPlans import getClassLessonPlansBlueprint
+app.register_blueprint(getClassLessonPlansBlueprint)
+
+from routes.backend.dashboard.getLessonPlan import getLessonPlanBlueprint
+app.register_blueprint(getLessonPlanBlueprint)
+
 from routes.public.share import shareBlueprint
 app.register_blueprint(shareBlueprint)
 

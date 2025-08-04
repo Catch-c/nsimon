@@ -348,6 +348,16 @@
                   >
                     <div class="d-flex align-items-center">
                       <h6 class="section-title">DAILY MESSAGES</h6>
+                      <span
+                        class="badge text-bg-secondary"
+                        id="dailyMessagesCount"
+                        >0 MESSAGES</span
+                      >
+                      <span
+                        class="badge text-bg-danger ms-2"
+                        id="dailyMessagesCountNew"
+                        >0 NEW</span
+                      >
                     </div>
                     <button
                       class="btn btn-sm p-0 text-muted border-0 bg-transparent collapse-toggle"
@@ -773,6 +783,32 @@
             </div>
           </div>
         </div>
+        <div
+          class="modal fade"
+          id="lessonPlanModal"
+          tabindex="-1"
+          aria-labelledby="lessonPlanModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header dashboard-header">
+                <h1 class="modal-title fs-5" id="lessonPlanModalLabel">
+                  Timetable Share
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div id="lessonPlanModalBody"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- SCRIPTS -->
@@ -790,6 +826,7 @@
       <script src="{{ url_for('static', filename='js/basic.js') }}"></script>
       <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
       <script src="{{ url_for('static', filename='js/timetableShare.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/lessonPlan.js') }}"></script>
       <script>
         document
           .getElementById("button-addon2")
